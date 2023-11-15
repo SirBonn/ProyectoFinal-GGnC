@@ -1,0 +1,104 @@
+<div *ngIf="_user.usertype== 1">
+  <div class="card">
+    <div class="card-header">
+      <div class="row">
+        <h5 class="col">{{_employer.username}}</h5>
+        <div *ngIf="_employer.isActive== 1">
+          <h2 class="card-text text-success mb-4">Activo</h2>
+        </div>
+        <div *ngIf="_employer.isActive== 0">
+          <h2 class="card-text text-danger mb-4">Inactivo</h2>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="userForm" class="needs-validation" (ngSubmit)="updateUser()">
+        <div class="row">
+          <div class="col-md-6 mb-2">
+            <div class="form-outline">
+              <input class="form-control" [readOnly]="isEditable"
+                [class.is-invalid]="userForm.controls['forename'].invalid && userForm.controls['forename'].touched"
+                [(ngModel)]="_employer.forename" id="forename" name="forename" formControlName="forename" />
+              <label class="form-label" for="forename">Forename</label>
+            </div>
+          </div>
+          <div class="col-md-6 mb-2">
+            <div class="form-outline">
+              <input class="form-control"
+                [class.is-invalid]="userForm.controls['username'].invalid && userForm.controls['username'].touched"
+                [(ngModel)]="_employer.username" [readOnly]="isEditable" id="username" name="username"
+                formControlName="username" />
+              <label class="form-label" for="username">Username</label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 mb-2">
+            <div class="form-outline">
+              <input class="form-control"
+                [class.is-invalid]="userForm.controls['direction'].invalid && userForm.controls['direction'].touched"
+                [(ngModel)]="_employer.direction" [readOnly]="isEditable" id="direction" name="direction"
+                formControlName="direction" />
+              <label class="form-label" for="direction">Direction</label>
+            </div>
+          </div>
+          <div class="col-md-6 mb-2">
+            <div class="form-outline">
+              <input class="form-control"
+                [class.is-invalid]="userForm.controls['noCUI'].invalid && userForm.controls['noCUI'].touched"
+                [(ngModel)]="_employer.noCUI" [readOnly]="isEditable" id="noCUI" name="noCUI" formControlName="noCUI" />
+              <label class="form-label" for="noCUI">No. CUI</label>
+            </div>
+          </div>
+        </div>
+        <div class="form-outline mb-2">
+          <input class="form-control"
+            [class.is-invalid]="userForm.controls['email'].invalid && userForm.controls['email'].touched"
+            [(ngModel)]="_employer.email" [readOnly]="isEditable" id="email" name="email" formControlName="email" />
+          <label class="form-label" for="email">Email address</label>
+        </div>
+        <div class="form-outline mb-2">
+          <label class="form-label" for="mision">Mision</label>
+          <input class="form-control" [(ngModel)]="_employer.mision" [readOnly]="isEditable" id="mision" name="mision"
+            formControlName="mision" />
+        </div>
+        <div class="form-outline mb-2">
+          <label class="form-label" for="vision">Vision</label>
+          <input class="form-control" [(ngModel)]="_employer.vision" [readOnly]="isEditable" id="vision" name="vision"
+            formControlName="vision" />
+        </div>
+
+        <div class="row pt-3">
+          <button type="submit" [disabled]="isEditable" class="btn btn-outline-light btn-lg px-5">Guardar
+            Cambios</button>
+          <a class="btn btn-outline-light btn-lg px-5">Cerrar</a>
+          <a class="form-control col btn btn-sm btn-outline-danger" (click)="updateStatus()">{{updateMessage}}</a>
+          <a class="form-control col btn btn-sm btn-outline-success" (click)="editUser()">Editar Campos</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="_user.usertype== 2">
+  <div class="card">
+    <div class="card-header">
+      <div class="row" *ngIf="_user.isActive== 1">
+        <h5 class="col">{{_user.username}}</h5>
+        <h5 class="col card-text text-success mb-4">Activo</h5>
+      </div>
+      <div class="row" *ngIf="_user.isActive== 0">
+        <h5 class="col">{{_user.username}}</h5>
+        <h5 class="col card-text text-danger mb-4">Inactivo</h5>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <p class="">Tipo: {{_userType}} </p>
+        <p class="">Nombre: {{_user.forename}}</p>
+        <p class=""> CUI: {{_user.noCUI}}</p>
+      </div>
+      <a class="form-control col btn btn-sm btn-outline-danger" (click)="updateStatus()">{{updateMessage}}</a>
+    </div>
+  </div>
+</div>

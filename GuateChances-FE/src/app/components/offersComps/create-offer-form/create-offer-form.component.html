@@ -1,0 +1,82 @@
+<div class="container">
+  <form [formGroup]="newOfferForm" (ngSubmit)="submit()">
+
+    <div class="card">
+
+      <div class="card-header">
+        <h3>Crear nueva oferta</h3>
+      </div>
+
+      <div class="card-body">
+
+        <div class="mb-3">
+          <label for="offerName" class="form-label">Offer Name:</label>
+          <input type="text" class="form-control"
+            [class.is-invalid]="newOfferForm.controls['offerName'].invalid && newOfferForm.controls['offerName'].touched"
+            id="offerName" name="offerName" required formControlName="offerName">
+        </div>
+
+        <div class="mb-3">
+          <label for="offerDesc" class="form-label">Offer Description:</label>
+          <textarea class="form-control" id="offerDesc"
+            [class.is-invalid]="newOfferForm.controls['offerDesc'].invalid && newOfferForm.controls['offerDesc'].touched"
+            name="offerDesc" required formControlName="offerDesc"></textarea>
+        </div>
+
+        <div class="mb-3">
+          <label for="category" class="form-label">Category:</label>
+          <input type="text" class="form-control"
+            [class.is-invalid]="newOfferForm.controls['category'].invalid && newOfferForm.controls['category'].touched"
+            id="category" name="category" required formControlName="category">
+        </div>
+
+        <div class="mb-3">
+          <label for="expireDate" class="form-label">Expire Date:</label>
+          <input type="date" class="form-control"
+            [class.is-invalid]="newOfferForm.controls['expireDate'].invalid && newOfferForm.controls['expireDate'].touched"
+            id="expireDate" name="expireDate" required formControlName="expireDate">
+        </div>
+
+        <div class="mb-3">
+          <label for="payment" class="form-label">Payment:</label>
+          <input type="number" class="form-control"
+            [class.is-invalid]="newOfferForm.controls['payment'].invalid && newOfferForm.controls['payment'].touched"
+            id="payment" name="payment" required formControlName="payment">
+        </div>
+
+        <div class="mb-3">
+          <label for="direction" class="form-label">direction:</label>
+          <input type="text" class="form-control"
+            [class.is-invalid]="newOfferForm.controls['direction'].invalid && newOfferForm.controls['direction'].touched"
+            id="direction" name="direction" required formControlName="direction">
+        </div>
+
+        <div class="mb-3">
+          <label for="modality" class="form-label">Modality:</label>
+          <input type="number" class="form-control"
+            [class.is-invalid]="newOfferForm.controls['modality'].invalid && newOfferForm.controls['modality'].touched"
+            id="modality" name="modality" required formControlName="modality">
+        </div>
+        <div class="mb-3">
+          <label for="details" class="form-label">details:</label>
+          <input type="text"
+            [class.is-invalid]="newOfferForm.controls['details'].invalid && newOfferForm.controls['details'].touched"
+            class="form-control" id="details" name="details" required formControlName="details">
+        </div>
+        <div class="row aling">
+          <div class="col-6">
+            <button type="submit" class="btn btn-primary " [disabled]="newOfferForm.invalid">Submit</button>
+
+          </div>
+
+          <div class="col-6">
+            <button type="submit" class="btn btn-primary " >Cancelar</button>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </form>
+
+</div>

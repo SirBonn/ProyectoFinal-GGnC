@@ -1,0 +1,26 @@
+<form [formGroup]="applicationForm" class="needs-validation" (ngSubmit)="submit()">
+
+  <div class="card text-start">
+    <div class="card-header">
+      <h3 class="card-title">Aplicando</h3>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-6">
+          <h4 class="card-title">Oferta: {{offer.offerName}}</h4>
+        </div>
+        <div class="col-6">
+          <h4 class="card-title">Aplicante: {{seeker.forename}}</h4>
+        </div>
+      </div>
+      <div class="input-group">
+        <span class="input-group-text">Mensaje para aplicar</span>
+        <textarea [class.is-invalid]="applicationForm.controls['seekerMessage'].invalid && applicationForm.controls['seekerMessage'].touched"
+          id="seekerMessage" name="seekerMessage" formControlName="seekerMessage" class="form-control" aria-label="With textarea"></textarea>
+      </div>
+    </div>
+    <button type="submit" class="form-control btn btn-outline-light btn-lg px-5">
+      Enviar aplicaion
+    </button>
+  </div>
+</form>

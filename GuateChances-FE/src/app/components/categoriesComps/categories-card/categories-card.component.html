@@ -1,0 +1,25 @@
+<div class="card shadow">
+  <div class="card-body ">
+    <div class="row">
+      <div class="col-6 mb-0">
+        <div class="d-flex justify-content-between align-items-center">
+          <h2 class="card-text mb-4">{{_cat.categoryName}}</h2>
+          <div *ngIf="_cat.isActive== 1">
+            <h2 class="card-text text-success mb-4">Activa</h2>
+          </div>
+          <div *ngIf="_cat.isActive== 0">
+            <h2 class="card-text text-danger mb-4">Inactiva</h2>
+          </div>
+        </div>
+
+      </div>
+      <div class=" mb-0">
+        <h5 class="card-text mb-4">{{_cat.categoryDesc}} </h5>
+      </div>
+    </div>
+    <div class="d-flex justify-content-between align-items-center">
+      <button type="button" class="btn  btn-outline-success">Editar</button>
+      <a class="btn btn-outline-danger" (click)="updateStatus()">{{updateMessage}}</a>
+    </div>
+  </div>
+</div>

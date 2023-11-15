@@ -1,0 +1,19 @@
+<div style="padding-top: 15px;">
+  <div class="card">
+    <div class="card-header">
+      <h2 class="">Nombre: {{_user.forename}}</h2>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <p class=""> Direccion: {{_user.direction}}</p>
+        <p class=""> Vision: {{_user.vision}}</p>
+        <p class=""> Mision: {{_user.mision}}</p>
+        <p>Telefonos: </p>
+        <p *ngFor="let phone of _user.telephone"> {{phone}}</p>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<h5></h5>

@@ -1,0 +1,49 @@
+<div class="card shadow">
+  <div style="padding-top: 15px; padding-bottom: 15px;" class="container">
+    <div class="card">
+      <div class="card-header ">
+        <div class="row">
+          <div class="col-8">
+            <strong> Aplicacion:</strong> {{_application.offer.offerName}}
+          </div>
+          <div class="col-4">
+            -- {{appState}} --
+          </div>
+        </div>
+      </div>
+      <div class="card-body row">
+        <div class="row">
+          <div class="col-8">
+            <p class="">Detalles: {{_application.offer.details}}</p>
+            <p class="">Descripcion: {{_application.offer.offerDesc}}</p>
+            <p class=""> Modalidad: {{_application.offer.modality}} </p>
+            <p class="">Empresa: {{_application.offer.employer.forename}}</p>
+            <p class="">mensaje: {{_application.seekerMessage}}</p>
+          </div>
+          <div class="col-4">
+            <a class="mb-3 btn btn-sm btn-outline-primary" (click)="showEmployer()">Ver empresa</a><br>
+            <a class="mb-3 btn btn-sm btn-outline-primary" (click)="showOffer()">Ver offerta</a><br>
+            <button class="mb-3 btn btn-sm btn-outline-success" [disabled]="!isSelected" (click)="showInterview()">Ver entrevista</button><br>
+            <button class="mb-3 btn btn-sm btn-outline-danger" [disabled]="isSelected" (click)="deleteApplication()">Cancelar aplicacion</button>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class=" container ">
+    <div *ngIf="showOfferInfo">
+      <app-offer-simple-card [_offer]="_application.offer" *appRefreshComp="_application.offer"></app-offer-simple-card>
+    </div>
+    <div *ngIf="showEmployerInfo">
+      <app-employer-simple-card [_user]="_application.offer.employer"
+        *appRefreshComp="_application.offer.employer"></app-employer-simple-card>
+    </div>
+    <div *ngIf="showinterviewInfo">
+      <!-- <app-employer-simple-card [_user]="_application.offer.employer"
+        *appRefreshComp="_application.offer.employer"></app-employer-simple-card> -->
+        <app-interview-card-view [_interview]="interview" *appRefreshComp="interview"></app-interview-card-view>
+    </div>
+  </div>
+</div>
+<h1></h1>

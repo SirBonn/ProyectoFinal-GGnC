@@ -1,0 +1,23 @@
+<div class="card">
+  <div class="card-header">
+    <div class="row" *ngIf="_user.isActive== 1">
+      <h5 class="col">{{_user.username}}</h5>
+      <h5 class="col card-text text-success mb-4">Activo</h5>
+    </div>
+    <div class="row" *ngIf="_user.isActive== 0">
+      <h5 class="col">{{_user.username}}</h5>
+      <h5 class="col card-text text-danger mb-4">Inactivo</h5>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <p class="">Tipo: {{_userType}} </p>
+      <p class="">Nombre: {{_user.forename}}</p>
+      <p class=""> CUI: {{_user.noCUI}}</p>
+      <p>
+        <button class="btn btn-primary" (click)="sendEditableUser()" type="submit">Detalles</button>
+      </p>
+    </div>
+  </div>
+</div>
+<h5></h5>

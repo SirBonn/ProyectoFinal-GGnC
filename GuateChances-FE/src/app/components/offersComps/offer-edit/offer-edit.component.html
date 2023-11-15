@@ -1,0 +1,29 @@
+<div class="card">
+  <h5 class="card-header"> Estado: {{state}}</h5>
+  <div class="card-body">
+    <h5 class="">Salario: Q {{_offer.payment}} </h5>
+    <p class="">Nombre<br> {{_offer.details}}</p>
+    <p class="">Descripcion<br> {{_offer.offerDesc}}</p>
+    <p class="">Creacion: {{_offer.publicationDate}} </p>
+    <p>Expira: {{_offer.expireDate}}</p>
+    <p class="">Lugar<br> {{_offer.direction}}</p>
+    <p class="">Modalidad de empleo<br> {{_modality}}</p>
+    <p class="">Empleador<br> {{_offer.employer.forename}}</p>
+    <p class="">Contacto de empleador<br> {{_offer.employer.email}}</p>
+    <p class="">Categoria<br> {{_offer.category.categoryName}}</p>
+    <label for="offerPay">Costo por seleccion</label>
+    <div class="input-group mb-3">
+      <span class="input-group-text">$</span>
+      <input type="number" class="form-control" [disabled]="isEditable" name="offerPay"
+        [(ngModel)]="_offer.plataformPayment" name="offerPay">
+      <span class="input-group-text">.00</span>
+    </div>
+    <div class="row pt-3">
+      <button class="form-control col btn btn-sm btn-outline-primary" (click)="editOffer()">Editar</button>
+      <button class="form-control col btn btn-sm btn-outline-danger" (click)="closeOfferEdit()">Cancelar</button>
+      <button class="form-control col btn btn-sm btn-outline-success" (click)="saveOfferChanges()">Guardar Cambios</button>
+    </div>
+
+  </div>
+</div>
+<h5></h5>

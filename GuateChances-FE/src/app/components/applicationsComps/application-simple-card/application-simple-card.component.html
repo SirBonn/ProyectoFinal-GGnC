@@ -1,0 +1,38 @@
+<div class="card shadow">
+  <div style="padding-top: 15px; padding-bottom: 15px;" class="container">
+    <div class="card">
+      <div class="card-header ">
+        <div class="row">
+          <div class="col-8">
+            <strong> Aplicacion:</strong> {{_application.offer.offerName}}
+          </div>
+          <div class="col-4">
+            -- {{appState}} --
+          </div>
+        </div>
+      </div>
+      <div class="card-body row">
+        <div class="row">
+          <div class="col-8">
+            <p class=""> Aplicando para {{_application.offer.offerName}}</p>
+            <p class=""> detalles: {{_application.offer.details}}</p>
+            <p class=""> Aplicante: {{_application.seeker.forename}}</p>
+            <p *ngFor="let phone of _application.seeker.telephone" class=""> Contacto telefonico: {{phone}}</p>
+            <p class=""> Razon descrita: {{_application.seekerMessage}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-4">
+            <a class="mb-3 btn btn-sm btn-outline-success" (click)="seleccionarUsuario(_application.seeker.idCode)">Seleccionar</a>
+          </div>
+          <div class="col-4">
+            <a class="mb-3 btn btn-sm btn-outline-danger" (click)="rechazar(_application.seeker.idCode)">Rechazar</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<h1></h1>

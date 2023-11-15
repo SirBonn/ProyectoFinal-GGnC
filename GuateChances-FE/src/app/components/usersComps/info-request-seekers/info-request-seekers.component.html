@@ -1,0 +1,13 @@
+<div *ngIf="!isPDFfileUploaded">
+
+  <h2>Parece que no has subido tu CV!</h2>
+  <h4>Para aplicar a las ofertas tienes que compartirnos tu CV.</h4>
+
+  <form class="input-group py-3 mb-3" method="post" enctype="multipart/form-data" (ngSubmit)="uploadPDFfile()">
+
+    <input type="file" (change)="processFile($event)" class="form-control" id="PDFfile" name="PDFfile"
+      aria-describedby="inputPDFfile" aria-label="Upload" required>
+    <button class="btn btn-primary" type="submit"> Cargar</button>
+
+  </form>
+</div>

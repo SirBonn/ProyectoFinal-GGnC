@@ -1,0 +1,24 @@
+<div class="card">
+  <div class="container">
+    <div class="row">
+      <div class="col-10">
+        <app-offer-simple-card [_offer]="offer"></app-offer-simple-card>
+      </div>
+      <div style="padding-top: 15px;" class="col-2">
+        <div *ngIf="viewForm">
+          <a class="btn btn-sm btn-outline-danger" (click)="applicateToOffer()">Cancelar</a>
+        </div>
+        <div *ngIf="!viewForm">
+          <a class="btn btn-sm btn-outline-primary" (click)="applicateToOffer()">Aplicar</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class=" container ">
+    <div *ngIf="viewForm">
+      <app-application-form [offer]="offer" [seeker]="_seeker" *appRefreshComp="offer"></app-application-form>
+    </div>
+  </div>
+</div>

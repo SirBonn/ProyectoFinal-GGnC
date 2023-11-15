@@ -1,0 +1,122 @@
+<header class="bg-dark site-header py-1">
+  <nav class="container d-flex flex-column flex-md-row justify-content-between">
+    <a class="py-2" href="/" aria-label="Product">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor"
+        stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="d-block mx-auto" role="img"
+        viewBox="0 0 24 24">
+        <title>Product</title>
+        <circle cx="12" cy="12" r="10" />
+        <path
+          d="M14.31 8l5.74 9.94M9.69 8h11.48M7.38 12l5.74-9.94M9.69 16L3.95 6.06M14.31 16H2.83m13.79-4l-5.74 9.94" />
+      </svg>
+    </a>
+  </nav>
+</header>
+
+<section class="vh-75 gradient-custom">
+  <div class="container py-3 h-75">
+    <div class="row d-flex justify-content-center align-items-center h-75">
+      <div class="col-8 col-md-4 col-lg-6 col-xl-5">
+        <div class="card bg-dark text-white" style="border-radius: 1rem;">
+          <div class="card-body p-3 text-center">
+            <div class="mb-md-5 mt-md-4 pb-5">
+              <h2 class="fw-bold mb-5">Sign up now</h2>
+
+              <div *ngIf="status==='error'">
+                <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  <strong> {{errorMessage}} </strong>
+                </div>
+              </div>
+              <div *ngIf="status==='success'">
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  <strong> ussers created </strong>
+                </div>
+              </div>
+              <form [formGroup]="userForm" class="needs-validation" (ngSubmit)="submit()">
+                <div class="row">
+                  <div class="col-md-6 mb-2">
+                    <div class="form-outline">
+                      <input class="form-control"
+                        [class.is-invalid]="userForm.controls['forename'].invalid && userForm.controls['forename'].touched"
+                        id="forename" name="forename" formControlName="forename" />
+                      <label class="form-label" for="forename">Forename</label>
+                    </div>
+                  </div>
+                  <div class="col-md-6 mb-2">
+                    <div class="form-outline">
+                      <input class="form-control"
+                        [class.is-invalid]="userForm.controls['username'].invalid && userForm.controls['username'].touched"
+                        id="username" name="username" formControlName="username" />
+                      <label class="form-label" for="username">Username</label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6 mb-2">
+                    <div class="form-outline">
+                      <input class="form-control"
+                        [class.is-invalid]="userForm.controls['direction'].invalid && userForm.controls['direction'].touched"
+                        id="direction" name="direction" formControlName="direction" />
+                      <label class="form-label" for="direction">Direction</label>
+                    </div>
+                  </div>
+                  <div class="col-md-6 mb-2">
+                    <div class="form-outline">
+                      <input class="form-control"
+                        [class.is-invalid]="userForm.controls['noCUI'].invalid && userForm.controls['noCUI'].touched"
+                        id="noCUI" name="noCUI" formControlName="noCUI" />
+                      <label class="form-label" for="noCUI">No. CUI</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6 mb-2">
+                    <div class="form-outline">
+                      <input class="form-control"
+                        [class.is-invalid]="userForm.controls['birthdate'].invalid && userForm.controls['birthdate'].touched"
+                        id="birthdate" name="birthdate" formControlName="birthdate" type="date" />
+                      <label class="form-label" for="birthdate">Fecha de cumpleaños</label>
+                    </div>
+                  </div>
+                  <div class="col-md-6 mb-2">
+                    <div class="form-group">
+                      <select class="form-control" id="usertype" name="usertype" formControlName="usertype">
+                        <option value="2">Solicitante</option>
+                        <option value="1">Empleador</option>
+                      </select>
+                      <label for="usertype">Tipo de usuario</label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-outline mb-2">
+                  <input class="form-control"
+                    [class.is-invalid]="userForm.controls['email'].invalid && userForm.controls['email'].touched"
+                    id="email" name="email" formControlName="email" />
+                  <label class="form-label" for="email">Email address</label>
+                </div>
+
+                <div class="form-outline mb-2">
+                  <input class="form-control"
+                    [class.is-invalid]="userForm.controls['password'].invalid && userForm.controls['password'].touched"
+                    id="password" name="password" formControlName="password" type="password" />
+                  <label class="form-label" for="userpassword">Password</label>
+                </div>
+                <button type="submit" class="btn btn-outline-light btn-lg px-5" [disabled]="userForm.invalid">
+                  Sign up
+                </button>
+                <button type="submit" class="btn btn-outline-light btn-lg px-5">
+                  Cancelar
+                </button>
+
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
