@@ -1,4 +1,4 @@
-package ggnc.guatechancesapi.Models.DataBase.UsersDAOs.UserCategories;
+package ggnc.guatechancesapi.Models.DataBase.UsersDAOs;
 
 import ggnc.guatechancesapi.Models.DataBase.DBConectionManager;
 import ggnc.guatechancesapi.Models.Domain.JobSeeker;
