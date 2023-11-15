@@ -1,2 +1,4 @@
-package ggnc.guatechancesapi.WebServices;public class SignInService {
+package ggnc.guatechancesapi.WebServices;
+
+public class SignInService {
 }
