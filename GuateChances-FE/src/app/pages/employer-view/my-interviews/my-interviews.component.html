@@ -1,0 +1,12 @@
+<main>
+  <app-employers-nav></app-employers-nav>
+</main>
+<div class="container">
+  <div class="col-8">
+    <app-interview-employer-view *ngFor="let interview of interviews"
+      [_interview]="interview"></app-interview-employer-view>
+  </div>
+  <div class="col-4">
+
+  </div>
+</div>

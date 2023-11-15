@@ -1,0 +1,21 @@
+<app-seeker-nav></app-seeker-nav>
+<div style="padding-top: 15px;" class="container">
+  <div class="row">
+    <div class="col-3">
+      <div class="card ">
+        <div class="card-body">
+          <h4 class="card-title">Mis Aplicaciones</h4>
+          <p class="card-text">Aplicaciones totales: </p>
+          <p class="card-text">Aplicaciones rechazadas: </p>
+          <p class="card-text">Aplicaciones aceptadas: </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-9">
+        <app-application-card *ngFor="let application of myApplications"
+          [_application]="application"></app-application-card>
+
+    </div>
+  </div>
+</div>

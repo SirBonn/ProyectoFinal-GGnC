@@ -1,0 +1,32 @@
+<main>
+  <app-employers-nav></app-employers-nav>
+</main>
+<div style="padding-top: 15px;">
+  <div class="container">
+    <div class="row justify-content-center g-2">
+      <div class="col-2">
+        <div class="card text-start">
+          <div class="card-body">
+            <h4 class="card-title">Mi perfil</h4>
+            <p class="card-text">Ofertas activas: </p>
+            <p class="card-text">ofertas publicadas: </p>
+            <p class="card-text">Entrevistas activas: </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-5">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-text">Ofertas activas</h4>
+          </div>
+          <div class="">
+            <app-offers-employer-view *ngFor="let offer of offers" [_offer]="offer"></app-offers-employer-view>
+          </div>
+        </div>
+      </div>
+      <div class="col-5">
+        <app-create-offer-form [employer]="employer"></app-create-offer-form>
+      </div>
+    </div>
+  </div>
+</div>

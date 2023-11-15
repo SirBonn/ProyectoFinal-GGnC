@@ -1,0 +1,13 @@
+<app-nav-bar></app-nav-bar>
+
+<div [ngSwitch]="userType">
+  <div *ngSwitchCase="0" >
+    <app-admin-view ></app-admin-view>
+  </div>
+  <div *ngSwitchCase="1">
+    <app-employer-view ></app-employer-view>
+  </div>
+  <div *ngSwitchCase="2">
+    <app-seeker-view ></app-seeker-view>
+  </div>
+</div>

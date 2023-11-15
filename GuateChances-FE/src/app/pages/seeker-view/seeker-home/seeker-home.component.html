@@ -1,0 +1,58 @@
+<app-seeker-nav></app-seeker-nav>
+<div style="padding-top: 15px;" class="container">
+
+  <app-info-request-seekers [isPDFfileUploaded]="isPDFfileUploaded" [seeker]="seeker"></app-info-request-seekers>
+
+  <div class="row ">
+    <div class="col-3">
+
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title" >Mis Categorias</h4>
+
+          <div  style="padding-top: 15px;"  *ngFor="let cat of myCategories">
+            <div class="card text-start">
+              <div class="card-header">
+                <h3 class="card-title">{{cat.categoryName}}</h3>
+              </div>
+              <div class="card-body">
+                <p class="card-text">{{cat.categoryDesc}}</p>
+              </div>
+            </div>
+          </div >
+          <div style="padding-top: 15px;">
+            <a class="btn btn-sm btn-outline-secondary" routerLink="/view/seeker/mis-categorias">editar</a>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="col-9">
+
+      <div *ngIf="!isPDFfileUploaded">
+        <div class="card border-danger">
+          <div class="card-body">
+            <h4 class="card-title">Lo sentimos</h4>
+            <p class="card-text">No puedes aplicar a nuestras ofertas si no nos compartes tu Curriculum</p>
+            <p class="card-text">puedes cargarlo en esta misma pagina!!!</p>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="isPDFfileUploaded && (!OffersByCategories || OffersByCategories.length === 0)">
+        <div class="card border-primary">
+          <div class="card-body">
+            <h4 class="card-title">Lo sentimos</h4>
+            <p class="card-text">Parece que nos hemos quedado sin sugerencias para ti</p>
+            <p class="card-text">Te avisaremos cuando alguien publique algo que te interesa :)</p>
+          </div>
+        </div>
+      </div>
+      <app-offers-seeker-view *ngFor="let offer of OffersByCategories " [offer]="offer" [_seeker]="seeker"></app-offers-seeker-view>
+
+    </div>
+  </div>
+</div>

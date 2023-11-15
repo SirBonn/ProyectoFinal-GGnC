@@ -1,0 +1,26 @@
+<app-adminnav></app-adminnav>
+
+<div style="padding: 30px;" class="container text-center">
+  <div class="row">
+
+    <form class="input-group mb-3" method="post" enctype="multipart/form-data" (ngSubmit)="uploadJSONfile()">
+
+      <input type="file" (change)="processFile($event)" class="form-control" id="JSONfile" name="JSONfile" aria-describedby="inputJSONfile"
+        aria-label="Upload" required>
+      <button class="btn btn-primary" type="submit"> Cargar</button>
+
+    </form>
+    <div *ngIf="fileStatus ==='subido'">
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <strong>Holy guacamole!</strong> Se ha cargado el archivo exitosamente.
+      </div>
+    </div>
+    <div *ngIf="fileStatus ==='error'">
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <strong>Holy guacamole!</strong> Ha ocurrido un error con el archivo, revisalo y vuelve a intentar
+      </div>
+    </div>
+  </div>
+</div>

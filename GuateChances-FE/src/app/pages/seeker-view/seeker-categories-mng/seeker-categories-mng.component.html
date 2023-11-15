@@ -1,0 +1,51 @@
+<app-seeker-nav></app-seeker-nav>
+<div style="padding-top: 10px;" class="container">
+
+  <div class="row">
+    <div class="col-2">
+      col-2
+      <!-- cantidad de ofertas por categorias -->
+
+    </div>
+    <div class="col-5">
+
+      <div class="card shadow">
+        <div class="card-body ">
+          <div class="row">
+            <div class=" mb-0">
+              <div class="d-flex justify-content-between align-items-center">
+                <h2 class="text-success">MisCategorias</h2>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <app-my-category-card *ngFor="let category of myCategories" [_cat]="category" [_seeker]="seeker"></app-my-category-card>
+
+    </div>
+    <div class="col-5">
+
+
+      <div class="card shadow">
+        <div class="card-body ">
+          <div class="row">
+            <div class=" mb-0">
+              <div class="d-flex justify-content-between align-items-center">
+                <h2 class="text-warning">Todas las Categorias</h2>
+              </div>
+              <div class=" mb-0">
+                <form class="d-flex" role="search">
+                  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                  <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Listado de categorias dentro del sistema -->
+      <app-select-category-card *ngFor="let category of allCategories" [_cat]="category" [_seeker]="seeker"></app-select-category-card>
+    </div>
+  </div>
+</div>

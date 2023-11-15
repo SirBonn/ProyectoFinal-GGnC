@@ -1,0 +1,36 @@
+<app-adminnav></app-adminnav>
+<main style="">
+  <div class=" w-100 my-md-3 ps-md-3">
+    <div class="row">
+      <div class="col">
+        <div class="bg-dark me-md-3 pt-3 px-3 px-md-5 text-white overflow-hidden">
+          <h2 class="display-7">Usuarios</h2>
+          <app-users-card *ngFor="let user of usersList" [_user]="user" (getEditableUser)="setEditableUser($event)" ></app-users-card>
+          <h2 class="display-7"> </h2>
+        </div>
+      </div>
+      <div class="col">
+        <div class="bg-light me-md-3 pt-3 px-3 px-md-5 overflow-hidden">
+          <h2 class="display-7">Ofertas publicadas</h2>
+          <app-offer-card *ngFor="let offer of offersList" [_offer]="offer" (getEditableOffer)="setEditableOffer($event)"></app-offer-card>
+          <h2 class="display-7"> </h2>
+        </div>
+      </div>
+      <div class="col">
+        <div class="bg-light me-md-3 pt-3 px-3 px-md-5 overflow-hidden">
+          <div *ngIf="userEditable!=null">
+            <h2 class="display-7">{{userEditable.username}}</h2>
+            <app-user-edit *appRefreshComp="userEditable"
+            [_user]="userEditable"></app-user-edit>
+          </div>
+          <div *ngIf="offerEditable!=null">
+            <h2 class="display-7">{{offerEditable.offerName}}</h2>
+            <app-offer-edit *appRefreshComp="offerEditable"
+            [_offer]="offerEditable"></app-offer-edit>
+          </div>
+          <h2 class="display-7"> </h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
