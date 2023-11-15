@@ -1,2 +1,7 @@
-package ggnc.guatechancesapi.Models.Domain;public class PhoneBook {
+package ggnc.guatechancesapi.Models.Domain;
+
+public class PhoneBook {
+
+
+
 }
