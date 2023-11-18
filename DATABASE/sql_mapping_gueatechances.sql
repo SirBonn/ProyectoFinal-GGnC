@@ -37,6 +37,7 @@ CREATE TABLE employers(
     no_card BIGINT,
     vision VARCHAR(400) NULL,
     mision VARCHAR(400) NULL,
+    paysPlataform DECIMAL(8,2) DEFAULT (0),
     PRIMARY KEY (id_code),
     CONSTRAINT id_employer_fk 
     FOREIGN KEY (id_code)
@@ -80,12 +81,12 @@ CREATE TABLE offers(
     offer_desc VARCHAR(300) NOT NULL,
     employer_id VARCHAR (50) NOT NULL, 
     category_id INT NOT NULL,
-    offer_state INT DEFAULT (0),  /*0 activa, 1 expirada, 2 cancelada*/
+    offer_state INT DEFAULT (0),  /*0 activa, 1 esperando entrevista, 2 FINALIZADA*/
     publication_date DATE NOT NULL,
     expiration_date DATE NOT NULL, 
     payment DECIMAL(8,2) NOT NULL,
     plataformPayment DECIMAL(8,2) DEFAULT (150),
-    modality INT NOT NULL, /*1 presencial, 2 remoto*/
+    modality INT NOT NULL, /*0 presencial, 1 remoto*/
     direction VARCHAR(60) NOT NULL,
     details VARCHAR(500) NOT NULL,
     user_selected VARCHAR (50) DEFAULT (NULL),

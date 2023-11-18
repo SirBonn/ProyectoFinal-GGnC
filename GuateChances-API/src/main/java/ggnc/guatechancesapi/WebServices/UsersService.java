@@ -26,7 +26,7 @@ public class UsersService {
     public void sendUser(HttpServletRequest req, HttpServletResponse response) throws ServletException, IOException {
         try {
             ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
-            User user = new SelectUser().getUserByID(new User(req.getParameter("cui")));
+            User user = new SelectUser().getUserByID(new User(req.getParameter("userID")));
             System.out.println("getting as: " + user.toString());
             response.setContentType(ContentType.APPLICATION_JSON.getMimeType());
             objectMapper.writeValue(response.getWriter(), user);

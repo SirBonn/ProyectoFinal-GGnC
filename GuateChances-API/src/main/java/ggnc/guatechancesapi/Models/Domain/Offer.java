@@ -26,6 +26,7 @@ public class Offer {
     private int modality;
     private String direction;
     private String details;
+    private JobSeeker seekerSelected;
 
     public Offer(int idCode, String offerName, String offerDesc, Employer employer, Category category, int offerState,
                  String publicationDate, String expireDate, double payment, double plataformPayment, int modality, String direction, String details) {
@@ -42,6 +43,24 @@ public class Offer {
         this.modality = modality;
         this.direction = direction;
         this.details = details;
+    }
+
+    public Offer(int idCode, String offerName, String offerDesc, Employer employer, Category category, int offerState,
+                 String publicationDate, String expireDate, double payment, double plataformPayment, int modality, String direction, String details, JobSeeker seekerSelected) {
+        this.idCode = idCode;
+        this.offerName = offerName;
+        this.offerDesc = offerDesc;
+        this.employer = employer;
+        this.category = category;
+        this.offerState = offerState;
+        this.publicationDate = TimeNDateFormater.stringToDate(publicationDate);
+        this.expireDate = TimeNDateFormater.stringToDate(expireDate);
+        this.payment = payment;
+        this.plataformPayment = plataformPayment;
+        this.modality = modality;
+        this.direction = direction;
+        this.details = details;
+        this.seekerSelected = seekerSelected;
     }
 
     public Offer(String offerName, String offerDesc, Employer employer, Category category, Date expireDate, double payment,
@@ -192,5 +211,13 @@ public class Offer {
             e.printStackTrace(System.out);
         }
         return fechaDate;
+    }
+
+    public JobSeeker getSeekerSelected() {
+        return seekerSelected;
+    }
+
+    public void setSeekerSelected(JobSeeker seekerSelected) {
+        this.seekerSelected = seekerSelected;
     }
 }

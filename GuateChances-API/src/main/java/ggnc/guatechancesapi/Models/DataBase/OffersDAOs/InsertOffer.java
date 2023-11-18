@@ -18,7 +18,7 @@ public class InsertOffer {
     public boolean insertOffer(Offer offer) {
 
         String SQL_INSERT = "INSERT INTO offers (offer_name, offer_desc, employer_id, category_id, publication_date, " +
-                "expiration_date, payment, modality, direction, details) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "expiration_date, payment, modality, direction, details, user_selected, offer_state) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try {
             this.connection = DBConectionManager.getConnection();
@@ -33,6 +33,15 @@ public class InsertOffer {
             preparedStatement.setInt(8, offer.getModality());
             preparedStatement.setString(9, offer.getDirection());
             preparedStatement.setString(10, offer.getDetails());
+
+            if (offer.getSeekerSelected().getIdCode().equals("-1")) {
+                preparedStatement.setString(11, null);
+            } else {
+                preparedStatement.setString(11, offer.getSeekerSelected().getIdCode());
+
+            }
+            preparedStatement.setInt(12, offer.getOfferState());
+
             preparedStatement.executeUpdate();
             return true;
         } catch (Exception e) {

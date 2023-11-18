@@ -17,13 +17,14 @@ public class InsertApplication {
     private ResultSet resultSet;
 
     public boolean insertApplication(Application application){
-        String SQL_INSERT = "INSERT INTO applications (seeker_code, offer_code, seeker_message) VALUES (?, ?, ?)";
+        String SQL_INSERT = "INSERT INTO applications (seeker_code, offer_code, seeker_message, application_state) VALUES (?, ?, ?, ?)";
         try {
             this.connection = DBConectionManager.getConnection();
             preparedStatement = connection.prepareStatement(SQL_INSERT);
             preparedStatement.setString(1, application.getSeeker().getIdCode());
             preparedStatement.setInt(2, application.getOffer().getIdCode());
             preparedStatement.setString(3, application.getSeekerMessage());
+            preparedStatement.setInt(4, application.getState());
 
             preparedStatement.executeUpdate();
 

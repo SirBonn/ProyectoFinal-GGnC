@@ -34,7 +34,7 @@ public class SelectEmployer {
                 String idCode = resultSet.getString("id_code");
                 String vision = resultSet.getString("vision");
                 String mision = resultSet.getString("mision");
-                int noCard = resultSet.getInt("no_card");
+                Long noCard = resultSet.getLong("no_card");
                 User user = new SelectUser().getUserByID(new User(idCode));
                 employer.setVision(vision);
                 employer.setMision(mision);

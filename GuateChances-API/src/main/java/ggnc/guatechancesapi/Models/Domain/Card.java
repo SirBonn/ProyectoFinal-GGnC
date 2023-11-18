@@ -17,7 +17,7 @@ public class Card {
         this.csv = csv;
     }
 
-    public Card(int number) {
+    public Card(Long number) {
         this.number = number;
     }
 

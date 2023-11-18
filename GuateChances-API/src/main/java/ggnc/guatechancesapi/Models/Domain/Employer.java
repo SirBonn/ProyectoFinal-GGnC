@@ -2,8 +2,6 @@ package ggnc.guatechancesapi.Models.Domain;
 
 import java.util.List;
 
-@lombok.Getter
-@lombok.Setter
 @lombok.NoArgsConstructor
 public class Employer extends User{
 
@@ -57,6 +55,30 @@ public class Employer extends User{
         this.setUsertype(1);
         this.setIsActive(user.getIsActive());
         this.setTelephone(user.getTelephone());
+    }
+
+    public Card getCard() {
+        return card;
+    }
+
+    public void setCard(Card card) {
+        this.card = card;
+    }
+
+    public String getVision() {
+        return vision;
+    }
+
+    public void setVision(String vision) {
+        this.vision = vision;
+    }
+
+    public String getMision() {
+        return mision;
+    }
+
+    public void setMision(String mision) {
+        this.mision = mision;
     }
 
     @Override

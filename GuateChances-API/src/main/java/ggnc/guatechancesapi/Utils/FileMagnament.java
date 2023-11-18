@@ -195,10 +195,10 @@ public class FileMagnament {
                 int idCode = offerNode.get("codigo").asInt();
                 String nombre = offerNode.get("nombre").asText();
                 String offerDesc = offerNode.get("descripcion").asText();
-                Employer employer = new SelectEmployer().getEmployer(new Employer(offerNode.get("empresa").asText())); //offerNode.get("empresa").asText() = userCode
-                Category category = new SelectCategory().getCategory(new Category(offerNode.get("categoria").asInt())); //offerNode.get("categoria").asInt() = categoryCode
+                Employer employer = new Employer(offerNode.get("empresa").asText()); //offerNode.get("empresa").asText() = userCode
+                Category category = new Category(offerNode.get("categoria").asInt()); //offerNode.get("categoria").asInt() = categoryCode
                 String state = offerNode.get("estado").asText();
-                intState = getState(state, "ACTIVA", "FINALIZADA");
+                intState = getState(state, "ACTIVA", "ENTREVISTA", "FINALIZADA");
                 String publicationDate = offerNode.get("fechaPublicacion").asText();
                 String expirationDate = offerNode.get("fechaLimite").asText();
                 double salary = offerNode.get("salario").asDouble();
@@ -206,7 +206,12 @@ public class FileMagnament {
                 intModality = getState(modality, "PRESENCIAL", "REMOTO", "HIBRIDO");
                 String direction = offerNode.get("ubicacion").asText();
                 String details = offerNode.get("detalles").asText();
-                Offer offer = new Offer(idCode, nombre, offerDesc, employer, category, intState, publicationDate, expirationDate, salary, 0, intModality, direction, details);
+                JobSeeker seekerSelected = new JobSeeker("-1");
+                if (!offerNode.get("usuarioElegido").isNull()) {
+                    seekerSelected = new JobSeeker(offerNode.get("usuarioElegido").asText());
+                }
+
+                Offer offer = new Offer(idCode, nombre, offerDesc, employer, category, intState, publicationDate, expirationDate, salary, 0, intModality, direction, details, seekerSelected);
                 System.out.println("CREADO offer: " + offer.toString());
                 loadAplication(offerNode, offer);
                 loadInterviews(offerNode, offer);
@@ -280,9 +285,9 @@ public class FileMagnament {
 
     private int getState(String COMPARE, String state1, String state2) {
         int intState = 0;
-        if (COMPARE.equals("state")) {
+        if (COMPARE.equals(state1)) {
             intState = 0;
-        } else if (COMPARE.equals("state2")) {
+        } else if (COMPARE.equals(state2)) {
             intState = 1;
         }
         return intState;
@@ -290,12 +295,12 @@ public class FileMagnament {
 
     private int getState(String COMPARE, String state1, String state2, String state3) {
         int intState = 0;
-        if (COMPARE.equals("state")) {
+        if (COMPARE.equals(state1)) {
+            intState = 0;
+        } else if (COMPARE.equals(state2)) {
             intState = 1;
-        } else if (COMPARE.equals("state2")) {
+        } else if (COMPARE.equals(state3)) {
             intState = 2;
-        } else if (COMPARE.equals("state3")) {
-            intState = 3;
         }
         return intState;
     }

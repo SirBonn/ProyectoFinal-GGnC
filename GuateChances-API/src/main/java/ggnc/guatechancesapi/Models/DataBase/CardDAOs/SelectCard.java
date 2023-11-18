@@ -28,7 +28,7 @@ public class SelectCard {
 
             while (resultSet.next()) {
 
-                int number = resultSet.getInt("no_card");
+                Long number = resultSet.getLong("no_card");
                 String name = resultSet.getString("titular");
 
                 card = new Card(number, name, 000000);
