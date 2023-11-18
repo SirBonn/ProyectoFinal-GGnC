@@ -21,6 +21,7 @@ import org.apache.http.entity.ContentType;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.SQLException;
 import java.util.List;
 
 public class SeekersService {
@@ -124,10 +125,11 @@ public class SeekersService {
             System.out.println(req);
             System.out.println(req.getContentType());
             Category category = objectMapper.readValue(req.getInputStream(), Category.class);
-
-            new InsertUserCategory().insertUserCategory(jobSeeker, category);
+            UserCategories userCategories = new UserCategories(jobSeeker.getIdCode());
+            userCategories.addCategory(category.getIdCode());
+            new InsertUserCategory().insertUserCategory(userCategories);
             response.setStatus(HttpServletResponse.SC_CREATED);
-        } catch (ErrorOcurredException e) {
+        } catch ( Exception e) {
 
             sendError(objectMapper, e, req, response);
 

@@ -1,6 +1,8 @@
 package ggnc.guatechancesapi.Models.Domain;
 
 @lombok.NoArgsConstructor
+@lombok.ToString
+
 public class Category {
 
     private int idCode;

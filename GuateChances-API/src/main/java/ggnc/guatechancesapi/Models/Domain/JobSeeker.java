@@ -18,7 +18,7 @@ public class JobSeeker extends User {
 
 
     public JobSeeker(User user){
-        super(user.getIdCode(), user.getForename(), user.getDirection(), user.getUsername(), user.getPassword(), user.getEmail(), user.getNoCUI(), user.getFormatedStringDate(), user.getUsertype(), user.getIsActive(), user.getTelephone());
+        super(user.getIdCode(), user.getForename(), user.getDirection(), user.getUsername(), user.getPassword(), user.getEmail(), user.getNoCUI(), user.getFormatedStringDate(), 2, user.getIsActive(), user.getTelephone());
     }
 
     public JobSeeker(String idCode) {
@@ -34,7 +34,7 @@ public class JobSeeker extends User {
         this.setEmail(user.getEmail());
         this.setNoCUI(user.getNoCUI());
         this.setBirthdate(user.getBirthdate());
-        this.setUsertype(user.getUsertype());
+        this.setUsertype(2);
         this.setIsActive(user.getIsActive());
         this.setTelephone(user.getTelephone());
     }

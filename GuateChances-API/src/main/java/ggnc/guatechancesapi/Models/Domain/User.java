@@ -21,6 +21,12 @@ public class User {
     private String username;
     private String password;
     private String email;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private Date birthdate;
+    private String noCUI;
+    private List<Long> telephone;
+    private int usertype = -1;
+    private int isActive;
 
     public User(String idCode, String forename, String direction, String username, String password, String email,
                 String birthdate, String noCUI, int usertype) {
@@ -34,13 +40,6 @@ public class User {
         this.noCUI = noCUI;
         this.usertype = usertype;
     }
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private Date birthdate;
-    private String noCUI;
-    private List<Long> telephone;
-    private int usertype = -1;
-    private int isActive;
 
     public User(String idCode, String forename, String direction, String username, String password, String email,
                 String noCUI, String birthdate, int usertype, int isActive, List<Long> telephone) {

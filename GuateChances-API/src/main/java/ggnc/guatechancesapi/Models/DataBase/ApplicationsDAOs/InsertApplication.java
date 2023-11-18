@@ -8,6 +8,7 @@ import ggnc.guatechancesapi.Utils.ErrorOcurredException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class InsertApplication {
 
@@ -15,7 +16,7 @@ public class InsertApplication {
     private PreparedStatement preparedStatement;
     private ResultSet resultSet;
 
-    public void insertApplication(Application application) throws ErrorOcurredException {
+    public boolean insertApplication(Application application){
         String SQL_INSERT = "INSERT INTO applications (seeker_code, offer_code, seeker_message) VALUES (?, ?, ?)";
         try {
             this.connection = DBConectionManager.getConnection();
@@ -25,9 +26,11 @@ public class InsertApplication {
             preparedStatement.setString(3, application.getSeekerMessage());
 
             preparedStatement.executeUpdate();
+
+            return true;
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            throw new ErrorOcurredException("Error al insertar la categoria: " +e.getMessage());
+            return false;
         } finally {
 
             DBConectionManager.close(preparedStatement);

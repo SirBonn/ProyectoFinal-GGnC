@@ -7,6 +7,7 @@ import ggnc.guatechancesapi.Utils.ErrorOcurredException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class InsertOffer {
 
@@ -14,7 +15,7 @@ public class InsertOffer {
     private PreparedStatement preparedStatement;
     private ResultSet resultSet;
 
-    public void insertOffer(Offer offer) throws ErrorOcurredException {
+    public boolean insertOffer(Offer offer) {
 
         String SQL_INSERT = "INSERT INTO offers (offer_name, offer_desc, employer_id, category_id, publication_date, " +
                 "expiration_date, payment, modality, direction, details) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -33,9 +34,10 @@ public class InsertOffer {
             preparedStatement.setString(9, offer.getDirection());
             preparedStatement.setString(10, offer.getDetails());
             preparedStatement.executeUpdate();
+            return true;
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            throw new ErrorOcurredException("Error al insertar la oferta: " +e.getMessage());
+            return false;
         } finally {
             DBConectionManager.close(preparedStatement);
             DBConectionManager.close(connection);

@@ -2,9 +2,11 @@ package ggnc.guatechancesapi.Models.Domain;
 
 
 @lombok.NoArgsConstructor
+@lombok.ToString
+
 public class Application {
 
-    private int idCode;
+    private int idCode = -1;
     private JobSeeker seeker;
     private Offer offer;
     private String seekerMessage;
@@ -12,6 +14,11 @@ public class Application {
 
     public Application(int idCode) {
         this.idCode = idCode;
+    }
+
+    public Application(JobSeeker seeker, Offer offer) {
+        this.seeker = seeker;
+        this.offer = offer;
     }
 
     public Application(int idCode, JobSeeker seeker, Offer offer, String seekerMessage, int state) {

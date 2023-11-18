@@ -7,6 +7,7 @@ import ggnc.guatechancesapi.Utils.TimeNDateFormater;
 
 import java.sql.Date;
 import java.sql.Time;
+@lombok.ToString
 
 public class Interview {
 

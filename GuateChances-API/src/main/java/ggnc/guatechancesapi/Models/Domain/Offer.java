@@ -8,6 +8,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 
 @lombok.NoArgsConstructor
+@lombok.ToString
 public class Offer {
 
     private int idCode;

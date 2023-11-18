@@ -34,6 +34,7 @@ public class filesControllerServlet extends HttpServlet {
             StringBuilder sb = new StringBuilder();
             String line;
             while ((line = reader.readLine()) != null) {
+
                 sb.append(line);
             }
 
@@ -52,6 +53,7 @@ public class filesControllerServlet extends HttpServlet {
             resp.setContentType("application/json");
             ObjectNode objectNode = objectMapper.createObjectNode();
             objectNode.put("succes", "Se ha insertado la data");
+            objectNode.put("failed", filemanager.getFileReaded().getExceptions());
             resp.getWriter().print(objectNode.toString());
         } catch (Exception e) {
             e.printStackTrace();
@@ -59,10 +61,8 @@ public class filesControllerServlet extends HttpServlet {
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             resp.setContentType("application/json");
             ObjectNode objectNode = objectMapper.createObjectNode();
-            objectNode.put("error", e.getMessage());
+            objectNode.put("error en la lectura del archivo", filemanager.getFileReaded().getExceptions());
             resp.getWriter().print(objectNode.toString());
         }
-
-
     }
 }

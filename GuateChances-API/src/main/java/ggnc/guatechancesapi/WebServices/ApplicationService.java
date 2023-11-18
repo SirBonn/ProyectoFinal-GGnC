@@ -19,6 +19,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.apache.http.entity.ContentType;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 public class ApplicationService {
@@ -82,7 +83,7 @@ public class ApplicationService {
             System.out.println("adding: " +app);
             new InsertApplication().insertApplication(app);
             resp.setStatus(HttpServletResponse.SC_CREATED);
-        } catch (ErrorOcurredException e) {
+        } catch (Exception e) {
 
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             resp.setContentType("application/json");

@@ -23,7 +23,7 @@ public class SelectCard {
         try {
             this.connection = DBConectionManager.getConnection();
             preparedStatement = connection.prepareStatement(SLQ_SELECT_BY_CREDENTIALS);
-            preparedStatement.setInt(1, card.getNumber());
+            preparedStatement.setLong(1, card.getNumber());
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {

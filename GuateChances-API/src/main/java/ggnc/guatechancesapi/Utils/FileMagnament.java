@@ -12,16 +12,10 @@ import java.util.logging.Logger;
 import java.io.BufferedReader;
 import java.io.InputStream;
 
-import ggnc.guatechancesapi.Models.DataBase.ApplicationsDAOs.InsertApplication;
 import ggnc.guatechancesapi.Models.DataBase.ApplicationsDAOs.SelectApplication;
-import ggnc.guatechancesapi.Models.DataBase.CategoryDAOs.InsertCategory;
 import ggnc.guatechancesapi.Models.DataBase.CategoryDAOs.SelectCategory;
-import ggnc.guatechancesapi.Models.DataBase.InterviewsDAOs.InsertInterview;
-import ggnc.guatechancesapi.Models.DataBase.OffersDAOs.InsertOffer;
-import ggnc.guatechancesapi.Models.DataBase.UsersDAOs.InsertUser;
 
 import ggnc.guatechancesapi.Models.DataBase.UsersDAOs.SelectEmployer;
-import ggnc.guatechancesapi.Models.DataBase.UsersDAOs.UserCategories.InsertUserCategory;
 import ggnc.guatechancesapi.Models.Domain.*;
 
 public class FileMagnament {
@@ -30,264 +24,283 @@ public class FileMagnament {
     private BufferedReader bufferedReader;
     private JsonNode rootNode;
     private String json;
+    private FileReaded fileReaded;
 
     public FileMagnament(String fileContent, BufferedReader bufferedReader) {
         this.bufferedReader = bufferedReader;
         this.json = fileContent;
+        fileReaded = new FileReaded();
         initJasonRootNode();
     }
 
     private void initJasonRootNode() {
 
         try {
-
             this.rootNode = objectMapper.readTree(json);
             System.out.println("exito ocn rootNode");
         } catch (IOException ex) {
-
             Logger.getLogger(FileMagnament.class.getName()).log(Level.SEVERE, null, ex);
-
         }
 
     }
 
-    public void loadData() throws ErrorOcurredException {
+    public void loadData() {
 
-        try {
-            loadCategories();
-            loadAdmins();
-            loadEmployers();
-            loadSeekers();
-            loadOffers();
 
-        } catch (Exception e) {
-            throw new ErrorOcurredException("Error al cargar datos: " + e.getMessage());
-        }
+        fileReaded.setCategories(loadCategories()); //            loadCategories();
+        fileReaded.setAdmins(loadAdmins());//            loadAdmins();
+        fileReaded.setEmployers(loadEmployers());//            loadEmployers();
+        fileReaded.setJobSeekers(loadSeekers());//            loadSeekers();
+        fileReaded.setOffers(loadOffers());//            loadOffers();
+        fileReaded.insertData();
 
     }
 
-    private void loadCategories() throws ErrorOcurredException{
+
+    private List<Category> loadCategories() {
 
         ArrayList<Category> categories = new ArrayList<>();
         JsonNode categoriesNode = rootNode.path("categorias");
-        InsertCategory insertCategory = new InsertCategory();
+
         for (JsonNode categoryNode : categoriesNode) {
-            int idCode = categoryNode.get("codigo").asInt();
-            String name = categoryNode.get("nombre").asText();
-            String description = categoryNode.get("descripcion").asText();
-            Category category = new Category(idCode, name, description);
-            categories.add(category);
-        }
+            try {
+                int idCode = categoryNode.get("codigo").asInt();
+                String name = categoryNode.get("nombre").asText();
+                String description = categoryNode.get("descripcion").asText();
+                Category category = new Category(idCode, name, description);
+                categories.add(category);
+            } catch (Exception e) {
+                fileReaded.addException("Error durante en lectura de archivo: " + e.getMessage());
+            }
 
-        for (Category category : categories) {
-           insertCategory.insertCategory(category);
         }
-
+        return categories;
     }
 
 
-    private void loadAdmins() throws ErrorOcurredException {
-        InsertUser insertUser = new InsertUser();
+    private List<User> loadAdmins() {
+
         ArrayList<User> admins = new ArrayList<>();
         JsonNode adminsNode = rootNode.path("admin");
-
         for (JsonNode adminNode : adminsNode) {
-            String idCode = adminNode.get("codigo").asText();
-            String forename = adminNode.get("nombre").asText();
-            String direction = adminNode.get("direccion").asText();
-            String username = adminNode.get("username").asText();
-            String password = adminNode.get("password").asText();
-            String email = adminNode.get("email").asText();
-            String noCUI = adminNode.get("CUI").asText();
-            String birthDate = adminNode.get("fechaNacimiento").asText();
-
-            User user = new User(idCode, forename, direction, username, password, email, birthDate, noCUI, 0);
-            admins.add(user);
+            try {
+                User user = userConstructor(adminNode);
+                System.out.println("CREADO admin: " + user.toString());
+                admins.add(user);
+            } catch (Exception e) {
+                fileReaded.addException("Error durante en lectura de archivo loadAdmins: " + e.getMessage());
+            }
         }
+        return admins;
+    }
 
-        for (User admin : admins) {
-            insertUser.insertUser(admin);
+    private List<Employer> loadEmployers() {
+        ArrayList<Employer> employers = new ArrayList<>();
+        JsonNode employersNode = rootNode.path("empleadores");
+        for (JsonNode employerNode : employersNode) {
+            try {
+                User user = userConstructor(employerNode);
+                String vision = employerNode.get("vision").asText();
+                String mision = employerNode.get("mision").asText();
+                PhoneBook phoneBook = loadTelephones(employerNode, user.getIdCode());
+                Card card = loadCards(employerNode);
+                Employer employer = new Employer(user, card, vision, mision, phoneBook.getTelephones());
+                System.out.println("CREADO EMP: " + employer.toString());
+                employers.add(employer);
+            } catch (Exception e) {
+                fileReaded.addException("Error durante en lectura de archivo loadEmployers: " + e.getMessage());
+            }
+        }
+        return employers;
+    }
+
+    private Card loadCards(JsonNode employerNode) {
+        try {
+            JsonNode cardNode = employerNode.get("tarjeta");
+            Long cardNumber = cardNode.get("numero").asLong();
+            String cardName = cardNode.get("Titular").asText();
+            int cardCVV = cardNode.get("codigoSeguridad").asInt();
+            Card card = new Card(cardNumber, cardName, cardCVV);
+            this.fileReaded.addCard(card);
+            return new Card(cardNumber, cardName, cardCVV);
+
+        } catch (Exception e) {
+            fileReaded.addException("Error durante en lectura de archivo loadCards: " + e.getMessage());
+            return null;
         }
 
     }
 
-    private void loadEmployers() throws ErrorOcurredException {
-        InsertUser insertUser = new InsertUser();
-        ArrayList<Employer> employers = new ArrayList<>();
-        JsonNode employersNode = rootNode.path("empleadores");
-
-        for (JsonNode employerNode : employersNode) {
-            String idCode = employerNode.get("codigo").asText();
-            String forename = employerNode.get("nombre").asText();
-            String direction = employerNode.get("direccion").asText();
-            String username = employerNode.get("username").asText();
-            String password = employerNode.get("password").asText();
-            String email = employerNode.get("email").asText();
-            String noCUI = employerNode.get("CUI").asText();
-            String birthDate = employerNode.get("fechaFundacion").asText();
+    private PhoneBook loadTelephones(JsonNode employerNode, String userCode) {
+        try {
             JsonNode telephoneNode = employerNode.get("telefonos");
             List<Long> telephones = new ArrayList<>();
             for (JsonNode telephone : telephoneNode) {
                 long number = telephone.asLong();
                 telephones.add(number);
             }
-            User user = new User(idCode, forename, direction, username, password, email, birthDate, noCUI, 1);
-            user.setTelephone(telephones);
-            Employer employer = new Employer(user);
-
-            String vision = employerNode.get("vision").asText();
-            String mision = employerNode.get("mision").asText();
-
-            JsonNode cardNode = employerNode.get("tarjeta");
-            int cardNumber = cardNode.get("numero").asInt();
-            String cardName = cardNode.get("Titular").asText();
-            int cardCVV = cardNode.get("codigoSeguridad").asInt();
-
-            Card card = new Card(cardNumber, cardName, cardCVV);
-            employer.setCard(card);
-
-            employers.add(employer);
-        }
-
-        for (User employer : employers) {
-            System.out.println("cargando: " + employer.toString());
-            insertUser.insertUser(employer);
+            PhoneBook phoneBook = new PhoneBook(telephones, userCode);
+            this.fileReaded.addPhoneBook(phoneBook);
+            return phoneBook;
+        } catch (Exception e) {
+            fileReaded.addException("Error durante en lectura de archivo: " + e.getMessage());
+            return null;
         }
 
     }
 
-    private void loadSeekers() throws ErrorOcurredException {
-
+    private List<JobSeeker> loadSeekers() {
         ArrayList<JobSeeker> seekers = new ArrayList<>();
         JsonNode seekersNode = rootNode.path("usuarios");
-
         for (JsonNode seekerNode : seekersNode) {
-            String idCode = seekerNode.get("codigo").asText();
-            String forename = seekerNode.get("nombre").asText();
-            String direction = seekerNode.get("direccion").asText();
-            String username = seekerNode.get("username").asText();
-            String password = seekerNode.get("password").asText();
-            String email = seekerNode.get("email").asText();
-            String noCUI = seekerNode.get("CUI").asText();
-            String birthDate = seekerNode.get("fechaNacimiento").asText();
-            JsonNode telephoneNode = seekerNode.get("telefonos");
-            List<Long> telephones = new ArrayList<>();
-            for (JsonNode telephone : telephoneNode) {
-                long number = telephone.asLong();
-                telephones.add(number);
+            try {
+                User user = userConstructor(seekerNode);
+                PhoneBook phoneBook = loadTelephones(seekerNode, user.getIdCode());
+                JobSeeker seeker = new JobSeeker(user);
+                System.out.println("CREADO SEEKER: " + seeker.toString());
+                JsonNode categoryNode = seekerNode.get("categorias");
+                loadUserCategories(seekerNode, user.getIdCode());
+                seekers.add(seeker);
+            } catch (Exception e) {
+                fileReaded.addException("Error durante en lectura de archivo loadSeekers: " + e.getMessage());
             }
-            User user = new User(idCode, forename, direction, username, password, email, birthDate, noCUI, 2);
-            user.setTelephone(telephones);
-            JobSeeker seeker = new JobSeeker(user);
-            System.out.println("insertando: " + seeker.toString());
+        }
+        return seekers;
+    }
 
-            new InsertUser().insertUser(seeker);
-
-            JsonNode categoryNode = seekerNode.get("categorias");
-            List<Integer> categories = new ArrayList<>();
+    private UserCategories loadUserCategories(JsonNode seekerNode, String userCode) {
+        JsonNode categoryNode = seekerNode.get("categorias");
+        List<Integer> categories = new ArrayList<>();
+        try {
             for (JsonNode category : categoryNode) {
                 int number = category.asInt();
                 categories.add(number);
             }
-
-            for (int category : categories) {
-                System.out.println("insertando: " + seeker.toString() + " y " + category);
-                new InsertUserCategory().insertUserCategory(seeker, new Category(category));
-            }
-
-            //seekers.add(seeker);
-        }
-
-        for (User seeker : seekers) {
-
+            UserCategories userCategories = new UserCategories(categories, userCode);
+            this.fileReaded.addUserCategories(userCategories);
+            return userCategories;
+        } catch (Exception e) {
+            fileReaded.addException("Error durante en lectura de archivo laodUserCategories: " + e.getMessage());
+            return null;
         }
     }
 
-    private void loadOffers() throws ErrorOcurredException {
-        InsertOffer insertOffer = new InsertOffer();
+    private List<Offer> loadOffers() {
         ArrayList<Offer> offers = new ArrayList<>();
         JsonNode offersNode = rootNode.get("ofertas");
         int intState = 0;
         int intModality = 1;
         for (JsonNode offerNode : offersNode) {
-            int idCode = offerNode.get("codigo").asInt();
-            String nombre = offerNode.get("nombre").asText();
-            String offerDesc = offerNode.get("descripcion").asText();
-            String employerCode = offerNode.get("empresa").asText();
-            int category = offerNode.get("categoria").asInt();
-            String state = offerNode.get("estado").asText();
-            if (state.equals("ACTIVA")){
-                intState= 0;
-            } else if (state.equals("FINALIZADA")){
-                intState = 1;
-            }
-            String publicationDate = offerNode.get("fechaPublicacion").asText();
-            String expirationDate = offerNode.get("fechaLimite").asText();
-            double salary = offerNode.get("salario").asDouble();
-            String modality = offerNode.get("modalidad").asText();
-            if (modality.equals("PRESENCIAL")){
-                intState= 1;
-            } else if (modality.equals("REMOTO")){
-                intState = 2;
-            } else if (modality.equals("HIBRIDO")){
-                intState = 3;
-            }
-            String direction = offerNode.get("ubicacion").asText();
-            String details = offerNode.get("detalles").asText();
+            try {
+                int idCode = offerNode.get("codigo").asInt();
+                String nombre = offerNode.get("nombre").asText();
+                String offerDesc = offerNode.get("descripcion").asText();
+                Employer employer = new SelectEmployer().getEmployer(new Employer(offerNode.get("empresa").asText())); //offerNode.get("empresa").asText() = userCode
+                Category category = new SelectCategory().getCategory(new Category(offerNode.get("categoria").asInt())); //offerNode.get("categoria").asInt() = categoryCode
+                String state = offerNode.get("estado").asText();
+                intState = getState(state, "ACTIVA", "FINALIZADA");
+                String publicationDate = offerNode.get("fechaPublicacion").asText();
+                String expirationDate = offerNode.get("fechaLimite").asText();
+                double salary = offerNode.get("salario").asDouble();
+                String modality = offerNode.get("modalidad").asText();
+                intModality = getState(modality, "PRESENCIAL", "REMOTO", "HIBRIDO");
+                String direction = offerNode.get("ubicacion").asText();
+                String details = offerNode.get("detalles").asText();
+                Offer offer = new Offer(idCode, nombre, offerDesc, employer, category, intState, publicationDate, expirationDate, salary, 0, intModality, direction, details);
+                System.out.println("CREADO offer: " + offer.toString());
+                loadAplication(offerNode, offer);
+                loadInterviews(offerNode, offer);
+                offers.add(offer);
+            } catch (Exception e) {
+                fileReaded.addException("Error durante en lectura de archivo loadOffers: " + e.getMessage());
 
-            Offer offer = new Offer(idCode, nombre, offerDesc, new SelectEmployer().getEmployer(new Employer(employerCode)),
-                    new SelectCategory().getCategory(new Category(category)), intState, publicationDate,
-                    expirationDate, salary, 0, intModality, direction, details);
+            }
+        }
+        return offers;
+    }
 
-            JsonNode applicationsNode = offerNode.get("solicitudes");
-            List<Application> applications = new ArrayList<>();
-            InsertApplication insertApplication = new InsertApplication();
-            for (JsonNode applicationNode : applicationsNode) {
+    private void loadAplication(JsonNode offerNode, Offer offer) {
+        JsonNode applicationsNode = offerNode.get("solicitudes");
+        List<Application> applications = new ArrayList<>();
+        for (JsonNode applicationNode : applicationsNode) {
+            try {
                 int applicationCode = applicationNode.get("codigo").asInt();
                 String seekerCode = applicationNode.get("usuario").asText();
                 String message = applicationNode.get("mensaje").asText();
                 Application application = new Application(applicationCode, new JobSeeker(seekerCode), offer, message, 0);
                 applications.add(application);
+                fileReaded.addApplication(application);
+            } catch (Exception e) {
+                fileReaded.addException("Error durante en lectura de archivo loadAplication: " + e.getMessage());
             }
-
-            for (Application application : applications) {
-                System.out.println("insertando: " + application.toString());
-                insertApplication.insertApplication(application);
-            }
-
-            JsonNode interviewNode = offerNode.get("entrevistas");
-            List<Interview> interviews = new ArrayList<>();
-            InsertInterview insertInw = new InsertInterview();
-            for (JsonNode iNode : interviewNode) {
-                int interviewCode = iNode.get("codigo").asInt();
-                String seekerCode = iNode.get("usuario").asText();
-                String date = iNode.get("fecha").asText();
-                String hour = iNode.get("hora").asText();
-                String direction2 = iNode.get("ubicacion").asText();
-                String state2 = iNode.get("estado").asText();
-                if (state.equals("PENDIENTE")){
-                    intState= 0;
-                } else if (state.equals("FINALIZADA")){
-                    intState = 1;
-                }
-                String notes = iNode.get("notas").asText();
-                int applicationCode = new SelectApplication().identifyApplication(new User(seekerCode), offer);
-                Interview interview = new Interview(interviewCode, new Application(applicationCode), date, hour, intState, direction2, notes);
-                interviews.add(interview);
-            }
-
-            for (Interview interview : interviews) {
-                System.out.println("insertando: " + interview.toString());
-                insertInw.insertInterview(interview);
-            }
-
-            offers.add(offer);
-        }
-
-        for (Offer offer : offers) {
-            System.out.println("insertando: " + offer.toString());
-            insertOffer.insertOffer(offer);
         }
     }
 
+    private void loadInterviews(JsonNode offerNode, Offer offer) {
+        JsonNode intterviewsNode = offerNode.get("entrevistas");
+        List<Interview> interviews = new ArrayList<>();
+        for (JsonNode interviewNode : intterviewsNode) {
+            try {
+                int interviewCode = interviewNode.get("codigo").asInt();
+                String seekerCode = interviewNode.get("usuario").asText();
+                String date = interviewNode.get("fecha").asText();
+                String hour = interviewNode.get("hora").asText();
+                String direction2 = interviewNode.get("ubicacion").asText();
+                String interviewState = interviewNode.get("estado").asText();
+                int intState = getState(interviewState, "PENDIENTE", "FINALIZADA");
+                String notes = interviewNode.get("notas").asText();
+                Application application = new Application(new JobSeeker(seekerCode), offer);
+                Interview interview = new Interview(interviewCode, application, date, hour, intState, direction2, notes);
+                interviews.add(interview);
+                fileReaded.addInterview(interview);
+            } catch (Exception e) {
+                fileReaded.addException("Error durante en lectura de archivo loadInterviews: " + e.getMessage());
+            }
+        }
+
+    }
+
+    private User userConstructor(JsonNode userNode) {
+        String idCode = userNode.get("codigo").asText();
+        String forename = userNode.get("nombre").asText();
+        String direction = userNode.get("direccion").asText();
+        String username = userNode.get("username").asText();
+        String password = userNode.get("password").asText();
+        String email = userNode.get("email").asText();
+        String noCUI = userNode.get("CUI").asText();
+        String birthDate = "";
+        if (userNode.has("fechaFundacion")) {
+            birthDate = userNode.get("fechaFundacion").asText();
+        } else {
+            birthDate = userNode.get("fechaNacimiento").asText();
+        }
+
+        return new User(idCode, forename, direction, username, password, email, birthDate, noCUI, 0);
+    }
+
+    private int getState(String COMPARE, String state1, String state2) {
+        int intState = 0;
+        if (COMPARE.equals("state")) {
+            intState = 0;
+        } else if (COMPARE.equals("state2")) {
+            intState = 1;
+        }
+        return intState;
+    }
+
+    private int getState(String COMPARE, String state1, String state2, String state3) {
+        int intState = 0;
+        if (COMPARE.equals("state")) {
+            intState = 1;
+        } else if (COMPARE.equals("state2")) {
+            intState = 2;
+        } else if (COMPARE.equals("state3")) {
+            intState = 3;
+        }
+        return intState;
+    }
+
+    public FileReaded getFileReaded() {
+        return fileReaded;
+    }
 }
