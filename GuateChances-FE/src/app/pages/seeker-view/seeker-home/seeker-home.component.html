@@ -8,9 +8,9 @@
 
       <div class="card">
         <div class="card-body">
-          <h4 class="card-title" >Mis Categorias</h4>
+          <h4 class="card-title">Mis Categorias</h4>
 
-          <div  style="padding-top: 15px;"  *ngFor="let cat of myCategories">
+          <div style="padding-top: 15px;" *ngFor="let cat of myCategories">
             <div class="card text-start">
               <div class="card-header">
                 <h3 class="card-title">{{cat.categoryName}}</h3>
@@ -19,7 +19,7 @@
                 <p class="card-text">{{cat.categoryDesc}}</p>
               </div>
             </div>
-          </div >
+          </div>
           <div style="padding-top: 15px;">
             <a class="btn btn-sm btn-outline-secondary" routerLink="/view/seeker/mis-categorias">editar</a>
           </div>
@@ -51,7 +51,10 @@
           </div>
         </div>
       </div>
-      <app-offers-seeker-view *ngFor="let offer of OffersByCategories " [offer]="offer" [_seeker]="seeker"></app-offers-seeker-view>
+      <div *ngIf="isPDFfileUploaded">
+        <app-offers-seeker-view *ngFor="let offer of OffersByCategories " [offer]="offer"
+          [_seeker]="seeker"></app-offers-seeker-view>
+      </div>
 
     </div>
   </div>
