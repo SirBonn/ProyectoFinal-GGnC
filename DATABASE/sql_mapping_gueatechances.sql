@@ -85,7 +85,6 @@ CREATE TABLE offers(
     publication_date DATE NOT NULL,
     expiration_date DATE NOT NULL, 
     payment DECIMAL(8,2) NOT NULL,
-    plataformPayment DECIMAL(8,2) DEFAULT (150),
     modality INT NOT NULL, /*0 presencial, 1 remoto*/
     direction VARCHAR(60) NOT NULL,
     details VARCHAR(500) NOT NULL,
@@ -98,6 +97,30 @@ CREATE TABLE offers(
     CONSTRAINT offer_category_fk
     FOREIGN KEY (category_id)
     REFERENCES categories(id_code)
+);
+
+CREATE TABLE payment_logs(
+    id_code INT NOT NULL AUTO_INCREMENT,
+    user_code VARCHAR (50) NOT NULL,
+    payment_date DATE NOT NULL,
+    plataformPayment DECIMAL(8,2),
+    PRIMARY KEY (id_code),
+    CONSTRAINT user_payment_fk
+    FOREIGN KEY (user_code)
+    REFERENCES users(id_code)
+    ON UPDATE CASCADE
+);
+
+CREATE TABLE offers_payments(
+    id_code INT NOT NULL AUTO_INCREMENT,
+    offer_code INT NOT NULL,
+    payment_date DATE NOT NULL,
+    plataformPayment DECIMAL(8,2) DEFAULT (150),
+    PRIMARY KEY (id_code),
+    CONSTRAINT offer_payed_fk
+    FOREIGN KEY (offer_code)
+    REFERENCES offers(id_code)
+    ON UPDATE CASCADE
 );
 
 CREATE TABLE applications(
@@ -148,6 +171,13 @@ CREATE TABLE interviews(
 INSERT INTO users(id_code, forename, username, userpass, email, birth_date, userType) VALUES
 ('adminAssing', 'admin1', 'admin1', 'b761bec41deab1e8e6a3b9245cf4ace25ef1e262c44bb45ad8c67809c0d6baec', 'admin@email.com', '2000-06-06', 0);
 
+INSERT INTO payment_logs(user_code, payment_date, plataformPayment) VALUES
+('adminAssing', '2021-06-06', 150);
+
+INSERT INTO offers_payments(offer_code, payment_date, plataformPayment) VALUES
+(1, '2021-06-06', 150);
+
+SELECT u.id_code AS employer_id, u.forename AS employer_name, SUM(op.plataformPayment) AS total_income FROM users u JOIN offers o ON u.id_code = o.employer_id JOIN offers_payments op ON o.id_code = op.offer_code WHERE op.payment_date BETWEEN '2021-05-05' AND '2021-07-07' GROUP BY u.id_code, u.forename ORDER BY total_income DESC LIMIT 5; 
 -- -- Insertar datos en la tabla "categories"
 -- INSERT INTO categories (id_code, cat_name, cat_desc) VALUES
 -- (1, 'Tecnologia', 'Categoria relacionada con empleos en tecnologia'),
