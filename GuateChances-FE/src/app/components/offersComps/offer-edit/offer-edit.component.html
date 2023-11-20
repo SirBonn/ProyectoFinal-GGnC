@@ -12,16 +12,8 @@
     <p class="">Contacto de empleador<br> {{_offer.employer.email}}</p>
     <p class="">Categoria<br> {{_offer.category.categoryName}}</p>
     <label for="offerPay">Costo por seleccion</label>
-    <div class="input-group mb-3">
-      <span class="input-group-text">$</span>
-      <input type="number" class="form-control" [disabled]="isEditable" name="offerPay"
-        [(ngModel)]="_offer.plataformPayment" name="offerPay">
-      <span class="input-group-text">.00</span>
-    </div>
     <div class="row pt-3">
-      <button class="form-control col btn btn-sm btn-outline-primary" (click)="editOffer()">Editar</button>
-      <button class="form-control col btn btn-sm btn-outline-danger" (click)="closeOfferEdit()">Cancelar</button>
-      <button class="form-control col btn btn-sm btn-outline-success" (click)="saveOfferChanges()">Guardar Cambios</button>
+      <button class="form-control col btn btn-sm btn-outline-danger" (click)="closeComp()">Cerrar</button>
     </div>
 
   </div>

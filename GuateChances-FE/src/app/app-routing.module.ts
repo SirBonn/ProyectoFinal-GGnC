@@ -21,6 +21,8 @@ import { MyInterviewsComponent } from './pages/employer-view/my-interviews/my-in
 import { SeekersSelectionPageComponent } from './pages/employer-view/seekers-selection-page/seekers-selection-page.component';
 import { EmployersHomeComponent } from './pages/employer-view/employers-home/employers-home.component';
 import { HomeGCComponent } from './pages/home-gc/home-gc.component';
+import { EmployersStatsComponent } from './pages/admin-view/reportes/employers-stats/employers-stats.component';
+import { PaymentLogComponent } from './pages/admin-view/reportes/payment-log/payment-log.component';
 import { GuatechancesHomeComponent } from './pages/home-gc/guatechances-home/guatechances-home.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { SocialComponent } from './pages/social/social.component';
@@ -44,7 +46,10 @@ const routes: Routes = [
           { path: '', title: 'AdminHome', component: AdminHomeComponent },
           { path: 'categories', title:'AdminCategories', component:CategoriesMngComponent},
           { path: 'files', title: 'AdminFiles', component: FilesMngComponent },
-          { path: 'reports', title: 'AdminReportes', component: ReportesComponent },
+          { path: 'reports', title: 'AdminReportes', component: ReportesComponent, children: [
+            { path: 'historial-payments', title: 'PaymentLog', component: PaymentLogComponent },
+            { path: 'employers-stats', title: 'EmployersStats', component: EmployersStatsComponent }
+          ]},
         ]},
       {
         path: 'employer',

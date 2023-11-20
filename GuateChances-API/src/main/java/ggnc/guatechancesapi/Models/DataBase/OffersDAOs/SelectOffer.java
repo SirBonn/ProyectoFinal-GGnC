@@ -57,7 +57,6 @@ public class SelectOffer {
                 offer.setPublicationDate(publicationDate);
                 offer.setExpireDate(expireDate);
                 offer.setPayment(payment);
-                offer.setPlataformPayment(plataformPayment);
                 offer.setModality(modality);
                 offer.setDirection(direction);
                 offer.setDetails(details);
@@ -97,14 +96,12 @@ public class SelectOffer {
                 String publicationDate = resultSet.getString("publication_date");
                 String expireDate = resultSet.getString("expiration_date");
                 double payment = resultSet.getDouble("payment");
-                double plataformPayment = resultSet.getDouble("plataformPayment");
                 int modality = resultSet.getInt("modality");
                 String direction = resultSet.getString("direction");
                 String details = resultSet.getString("details");
 
                 Offer offer = new Offer(idCode, offerName, offerDesc, new SelectEmployer().getEmployer(employer),
-                        new SelectCategory().getCategory(category), offerState, publicationDate, expireDate, payment,
-                        plataformPayment, modality, direction, details);
+                        new SelectCategory().getCategory(category), offerState, publicationDate, expireDate, payment, modality, direction, details);
 
                 offers.add(offer);
             }
@@ -142,14 +139,12 @@ public class SelectOffer {
                 String publicationDate = resultSet.getString("publication_date");
                 String expireDate = resultSet.getString("expiration_date");
                 double payment = resultSet.getDouble("payment");
-                double plataformPayment = resultSet.getDouble("plataformPayment");
                 int modality = resultSet.getInt("modality");
                 String direction = resultSet.getString("direction");
                 String details = resultSet.getString("details");
 
                 Offer offer = new Offer(idCode, offerName, offerDesc, new SelectEmployer().getEmployer(employer),
-                        new SelectCategory().getCategory(category), offerState, publicationDate, expireDate, payment,
-                        plataformPayment, modality, direction, details);
+                        new SelectCategory().getCategory(category), offerState, publicationDate, expireDate, payment, modality, direction, details);
 
                 offers.add(offer);
             }

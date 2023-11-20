@@ -54,6 +54,9 @@ import { OffersEmployerViewComponent } from './components/offersComps/offers-emp
 import { CreateOfferFormComponent } from './components/offersComps/create-offer-form/create-offer-form.component';
 import { InterviewEmployerViewComponent } from './components/interviewsComps/interview-employer-view/interview-employer-view.component';
 import { ApplicationSimpleCardComponent } from './components/applicationsComps/application-simple-card/application-simple-card.component';
+import { PaymentInfoComponent } from './components/offersComps/payment-info/payment-info.component';
+import { PaymentLogComponent } from './pages/admin-view/reportes/payment-log/payment-log.component';
+import { EmployersStatsComponent } from './pages/admin-view/reportes/employers-stats/employers-stats.component';
 
 @NgModule({
   declarations: [
@@ -106,7 +109,10 @@ import { ApplicationSimpleCardComponent } from './components/applicationsComps/a
     OffersEmployerViewComponent,
     CreateOfferFormComponent,
     InterviewEmployerViewComponent,
-    ApplicationSimpleCardComponent
+    ApplicationSimpleCardComponent,
+    PaymentInfoComponent,
+    PaymentLogComponent,
+    EmployersStatsComponent
   ],
   imports: [
     BrowserModule,

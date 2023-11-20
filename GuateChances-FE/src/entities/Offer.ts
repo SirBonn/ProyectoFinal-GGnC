@@ -12,7 +12,6 @@ export interface Offer {
   publicationDate: string;
   expireDate: string;
   payment: number;
-  plataformPayment: number;
   modality: number;
   direction: string;
   details: string;

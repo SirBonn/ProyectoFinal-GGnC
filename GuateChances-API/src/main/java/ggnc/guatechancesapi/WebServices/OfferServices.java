@@ -4,17 +4,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import ggnc.guatechancesapi.Models.DataBase.OffersDAOs.InsertOffer;
+import ggnc.guatechancesapi.Models.DataBase.OffersDAOs.PlataformPayment.InsertUpdatePayment;
+import ggnc.guatechancesapi.Models.DataBase.OffersDAOs.PlataformPayment.SelectPaymentLogs;
 import ggnc.guatechancesapi.Models.DataBase.OffersDAOs.SelectOffer;
-import ggnc.guatechancesapi.Models.DataBase.UsersDAOs.SelectUser;
-import ggnc.guatechancesapi.Models.Domain.Employer;
-import ggnc.guatechancesapi.Models.Domain.Offer;
-import ggnc.guatechancesapi.Utils.ErrorOcurredException;
+import ggnc.guatechancesapi.Models.DataBase.OffersDAOs.PlataformPayment.SelectOfferPayment;
+import ggnc.guatechancesapi.Models.DataBase.OffersDAOs.PlataformPayment.UpdateOfferPayment;
+import ggnc.guatechancesapi.Models.DataBase.UsersDAOs.SelectReports;
+import ggnc.guatechancesapi.Models.Domain.*;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.http.entity.ContentType;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class OfferServices {
@@ -40,8 +43,12 @@ public class OfferServices {
     public void sendOffersByEmployer(HttpServletRequest req, HttpServletResponse response) throws ServletException, IOException {
         ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
         Employer employer = new Employer(req.getParameter("empCode"));
-        List<Offer> offersByEmployer = new SelectOffer().getActiveOffers(employer);
-
+        List<Offer> offersByEmployer = new ArrayList<>();
+        if (req.getParameter("offers") == null) {
+            offersByEmployer = new SelectOffer().getActiveOffers(employer);
+        } else {
+            offersByEmployer = new SelectOffer().getOffersByEmployer(employer);
+        }
 
         response.setContentType(ContentType.APPLICATION_JSON.getMimeType());
         objectMapper.writeValue(response.getWriter(), offersByEmployer);
@@ -67,4 +74,43 @@ public class OfferServices {
         }
 
     }
+
+    public void sendOffersPayment(HttpServletRequest req, HttpServletResponse response) throws ServletException, IOException {
+        ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
+        double payment = new SelectOfferPayment().getOfferPayment();
+
+        response.setContentType(ContentType.APPLICATION_JSON.getMimeType());
+        objectMapper.writeValue(response.getWriter(), payment);
+        response.setStatus(HttpServletResponse.SC_CREATED);
+    }
+
+    public void updateOffersPayment(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
+        try {
+            User user = new User(req.getParameter("idCode"));
+            double payment = objectMapper.readValue(req.getReader(), double.class);
+            PlataformPayment plataformPayment = new PlataformPayment(user, payment);
+            new InsertUpdatePayment().insertLog(plataformPayment);
+            resp.setContentType(ContentType.APPLICATION_JSON.getMimeType());
+            objectMapper.writeValue(resp.getWriter(), payment);
+            resp.setStatus(HttpServletResponse.SC_CREATED);
+        } catch (Exception e) {
+            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            resp.setContentType("application/json");
+            ObjectNode objectNode = objectMapper.createObjectNode();
+            objectNode.put("error", e.getMessage());
+            resp.getWriter().print(objectNode.toString());
+        }
+    }
+
+
+    public void sendPaymentLogs(HttpServletRequest req, HttpServletResponse response) throws ServletException, IOException {
+        ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
+        List<PlataformPayment> paymentLogs = new SelectPaymentLogs().getPaymentLogs();
+
+        response.setContentType(ContentType.APPLICATION_JSON.getMimeType());
+        objectMapper.writeValue(response.getWriter(), paymentLogs);
+        response.setStatus(HttpServletResponse.SC_CREATED);
+    }
+
 }

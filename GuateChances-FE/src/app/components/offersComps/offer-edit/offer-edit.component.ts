@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Offer } from 'src/entities/Offer';
 import { User } from 'src/entities/User';
 
@@ -13,6 +13,9 @@ export class OfferEditComponent implements OnInit{
   isEditable: boolean = true;
   state: string = '';
   _modality: string = '';
+  @Output() getActiveView = new EventEmitter<boolean>();
+  _activeView: boolean = true;
+
 
   ngOnInit(): void {
     this.setOfferState();
@@ -41,8 +44,11 @@ export class OfferEditComponent implements OnInit{
     this.isEditable = !this.isEditable;
   }
 
-  closeOfferEdit(){
-  }
 
   saveOfferChanges(){}
+
+  closeComp() {
+    this._activeView = false;
+    this.getActiveView.emit(this._activeView);
+  }
 }

@@ -14,6 +14,8 @@ export class AdminHomeComponent implements OnInit{
   offersList: Offer[] = [];
   userEditable!: User;
   offerEditable!: Offer;
+  _isActiveViewUSR: boolean = true;
+  _isActiveViewOFR: boolean = true;
 
   constructor(private userService: UserService,
     private offerService: OfferService) {}
@@ -30,15 +32,27 @@ export class AdminHomeComponent implements OnInit{
         this.offersList = offers;
       }
     })
+
   }
 
   setEditableUser(User: User){
     this.userEditable = User;
     console.log(this.userEditable);
+    this._isActiveViewUSR = true;
+  }
+
+  setIsActiveView(isActiveView: boolean, mode: number){
+    if(mode == 0){
+      this._isActiveViewUSR = isActiveView;
+    }else if(mode == 1){
+      this._isActiveViewOFR = isActiveView;
+    }
   }
 
   setEditableOffer(Offer: Offer){
     this.offerEditable = Offer;
     console.log(this.offerEditable);
+    this._isActiveViewOFR = true;
   }
+
 }

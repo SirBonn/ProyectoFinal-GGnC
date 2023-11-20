@@ -211,7 +211,7 @@ public class FileMagnament {
                     seekerSelected = new JobSeeker(offerNode.get("usuarioElegido").asText());
                 }
 
-                Offer offer = new Offer(idCode, nombre, offerDesc, employer, category, intState, publicationDate, expirationDate, salary, 0, intModality, direction, details, seekerSelected);
+                Offer offer = new Offer(idCode, nombre, offerDesc, employer, category, intState, publicationDate, expirationDate, salary, intModality, direction, details, seekerSelected);
                 System.out.println("CREADO offer: " + offer.toString());
                 loadAplication(offerNode, offer);
                 loadInterviews(offerNode, offer);

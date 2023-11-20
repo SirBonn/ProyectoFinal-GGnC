@@ -71,7 +71,7 @@
         <div class="row pt-3">
           <button type="submit" [disabled]="isEditable" class="btn btn-outline-light btn-lg px-5">Guardar
             Cambios</button>
-          <a class="btn btn-outline-light btn-lg px-5">Cerrar</a>
+          <a class="btn btn-outline-light btn-lg px-5" (click)="closeComp()">Cerrar</a>
           <a class="form-control col btn btn-sm btn-outline-danger" (click)="updateStatus()">{{updateMessage}}</a>
           <a class="form-control col btn btn-sm btn-outline-success" (click)="editUser()">Editar Campos</a>
         </div>

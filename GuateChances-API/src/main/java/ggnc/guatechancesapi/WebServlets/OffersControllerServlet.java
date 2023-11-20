@@ -20,7 +20,6 @@ public class OffersControllerServlet extends HttpServlet {
                 offerServices.sendOffer(req, response);
             }
         } else {
-
             switch (req.getParameter("action")) {
                 case "getOffersByEmployer":
                     offerServices.sendOffersByEmployer(req, response);
@@ -28,17 +27,19 @@ public class OffersControllerServlet extends HttpServlet {
                 case "createOffer":
                     offerServices.createOffer(req, response);
                     break;
+                case "getOffersPayment":
+                    offerServices.sendOffersPayment(req, response);
+                    break;
+                case "getPaymentLogs":
+                    offerServices.sendPaymentLogs(req, response);
+                    break;
                 default:
                     break;
             }
-
         }
-
-
     }
 
     protected void doPost(HttpServletRequest req, HttpServletResponse response) throws IOException, ServletException {
-
         switch (req.getParameter("action")) {
             case "getOffersByEmployer":
                 offerServices.sendOffersByEmployer(req, response);
@@ -49,8 +50,16 @@ public class OffersControllerServlet extends HttpServlet {
             default:
                 break;
         }
-
-
     }
 
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        switch (req.getParameter("action")) {
+            case "updateOffersPayment":
+                offerServices.updateOffersPayment(req, resp);
+                break;
+            default:
+                break;
+        }
+    }
 }

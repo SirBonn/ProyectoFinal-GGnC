@@ -18,16 +18,13 @@
             <a class="nav-link" routerLink="/view/admin/files">Cargar Archivo</a>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Reportes
             </a>
 
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" routerLink="reports">Ver historial de comisiones</a></li>
-            <li><a class="dropdown-item" href="#">Empleadores que mas ofertas han publicado</a></li>
-            <li><a class="dropdown-item" href="#">Empleadores que mas ingresos han generado</a></li>
-            <li><a class="dropdown-item" href="#">Ver total de ingresos</a></li>
-
+            <li><a class="dropdown-item" routerLink="/view/admin/reports/historial-payments">Ver historial de comisiones</a></li>
+            <li><a class="dropdown-item" routerLink="/view/admin/reports/employers-stats" >Ver estadisticas de empleadores</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="#">Exportar reportes en PDF</a></li>
           </ul>

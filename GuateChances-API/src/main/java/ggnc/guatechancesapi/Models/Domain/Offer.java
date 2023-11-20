@@ -22,14 +22,13 @@ public class Offer {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date expireDate;
     private double payment;
-    private double plataformPayment;
     private int modality;
     private String direction;
     private String details;
     private JobSeeker seekerSelected;
 
     public Offer(int idCode, String offerName, String offerDesc, Employer employer, Category category, int offerState,
-                 String publicationDate, String expireDate, double payment, double plataformPayment, int modality, String direction, String details) {
+                 String publicationDate, String expireDate, double payment, int modality, String direction, String details) {
         this.idCode = idCode;
         this.offerName = offerName;
         this.offerDesc = offerDesc;
@@ -39,14 +38,13 @@ public class Offer {
         this.publicationDate = TimeNDateFormater.stringToDate(publicationDate);
         this.expireDate = TimeNDateFormater.stringToDate(expireDate);
         this.payment = payment;
-        this.plataformPayment = plataformPayment;
         this.modality = modality;
         this.direction = direction;
         this.details = details;
     }
 
     public Offer(int idCode, String offerName, String offerDesc, Employer employer, Category category, int offerState,
-                 String publicationDate, String expireDate, double payment, double plataformPayment, int modality, String direction, String details, JobSeeker seekerSelected) {
+                 String publicationDate, String expireDate, double payment,  int modality, String direction, String details, JobSeeker seekerSelected) {
         this.idCode = idCode;
         this.offerName = offerName;
         this.offerDesc = offerDesc;
@@ -56,7 +54,6 @@ public class Offer {
         this.publicationDate = TimeNDateFormater.stringToDate(publicationDate);
         this.expireDate = TimeNDateFormater.stringToDate(expireDate);
         this.payment = payment;
-        this.plataformPayment = plataformPayment;
         this.modality = modality;
         this.direction = direction;
         this.details = details;
@@ -165,14 +162,6 @@ public class Offer {
 
     public void setPayment(double payment) {
         this.payment = payment;
-    }
-
-    public double getPlataformPayment() {
-        return plataformPayment;
-    }
-
-    public void setPlataformPayment(double plataformPayment) {
-        this.plataformPayment = plataformPayment;
     }
 
     public int getModality() {

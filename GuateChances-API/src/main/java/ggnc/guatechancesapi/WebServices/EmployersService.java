@@ -3,11 +3,9 @@ package ggnc.guatechancesapi.WebServices;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import ggnc.guatechancesapi.Models.DataBase.UsersDAOs.InsertUser;
-import ggnc.guatechancesapi.Models.DataBase.UsersDAOs.SelectEmployer;
-import ggnc.guatechancesapi.Models.DataBase.UsersDAOs.SelectUser;
-import ggnc.guatechancesapi.Models.DataBase.UsersDAOs.UpdateEmployer;
+import ggnc.guatechancesapi.Models.DataBase.UsersDAOs.*;
 import ggnc.guatechancesapi.Models.Domain.Employer;
+import ggnc.guatechancesapi.Models.Domain.EmployerByOffer;
 import ggnc.guatechancesapi.Models.Domain.User;
 import ggnc.guatechancesapi.Utils.ErrorOcurredException;
 import jakarta.servlet.ServletException;
@@ -64,6 +62,26 @@ public class EmployersService {
             objectNode.put("error", e.getMessage());
             response.getWriter().print(objectNode.toString());
         }
+    }
+
+    public void getTopEmployersByOffers(HttpServletRequest req, HttpServletResponse response) throws ServletException, IOException {
+        ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
+        List<EmployerByOffer> topEmployers = new SelectReports().getTopEmployersPublisher();
+
+        response.setContentType(ContentType.APPLICATION_JSON.getMimeType());
+        objectMapper.writeValue(response.getWriter(), topEmployers);
+        response.setStatus(HttpServletResponse.SC_CREATED);
+    }
+
+    public void getTopEmployersByPays(HttpServletRequest req, HttpServletResponse response) throws ServletException, IOException {
+        ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
+        String start = req.getParameter("startDate");
+        String end = req.getParameter("endDate");
+        List<Employer> topEmployers = new SelectReports().getTopEmployersContributedBy(start, end);
+
+        response.setContentType(ContentType.APPLICATION_JSON.getMimeType());
+        objectMapper.writeValue(response.getWriter(), topEmployers);
+        response.setStatus(HttpServletResponse.SC_CREATED);
     }
 
 }

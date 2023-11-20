@@ -9,6 +9,8 @@ public class Employer extends User{
     private String vision;
     private String mision;
 
+    private double plataformPayments;
+
     public Employer(String idCode, String forename, String direction, String username, String password, String email,
                     String CUI, String birthdate, int usertype, Card card, String vision, String mision, int isActive, List<Long> phones) {
         super(idCode, forename, direction, username, password, email, CUI, birthdate, 1, isActive, phones);
@@ -79,6 +81,14 @@ public class Employer extends User{
 
     public void setMision(String mision) {
         this.mision = mision;
+    }
+
+    public double getPlataformPayments() {
+        return plataformPayments;
+    }
+
+    public void setPlataformPayments(double plataformPayments) {
+        this.plataformPayments = plataformPayments;
     }
 
     @Override

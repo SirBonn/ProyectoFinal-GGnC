@@ -1,0 +1,77 @@
+<div style="padding: 30px;" class="container">
+  <div class="row">
+
+    <div *ngIf="showOffers">
+      <app-offer-simple-card *ngFor="let offer of offersByUser" [_offer]="offer"></app-offer-simple-card>
+    </div>
+
+    <div class="mb-3 card border-primary">
+      <h4 class="card-title">Top 5 de empleadores con más ofertas publicadas</h4>
+      <div class="card-body">
+        <div *ngFor="let employerByOffer of topByOffers; let i = index" class="card mb-3">
+          <div class="row">
+            <div class="col-md-4">
+              <img style="height: 100px;"
+                src="https://th.bing.com/th/id/OIP.GHGGLYe7gDfZUzF_tElxiQHaHa?rs=1&pid=ImgDetMain" class=""
+                alt="Card title">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title">{{i+1}}) {{employerByOffer.employer.forename}}</h5>
+                <p class="card-text">Cantidad de ofertas publicadas: {{employerByOffer.totalOffers}}</p>
+                <div *ngIf="!showOffers">
+                  <button type="button" class="btn btn-outline-primary"
+                    (click)="showOffersByUser(employerByOffer.employer)">Ver Ofertas</button>
+                </div>
+                <div *ngIf="showOffers">
+                  <button type="button" class="btn btn-outline-primary" (click)="hideOffers()">Cerrar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="mb-3 card border-primary">
+      <div class="card-body">
+        <h2 class="card-text">Aportes dentro de un rango de fechas</h2>
+        <form (ngSubmit)="sendDates()">
+          <div class="row">
+            <div class="col-md-4 mb-2">
+              <div class="form-outline">
+                <label for="startDate" class="form-label">Fecha Inicial:</label>
+                <input type="date" class="form-control" id="startDate" name="startDate" [(ngModel)]="startDate"
+                  required>
+              </div>
+            </div>
+            <div class="col-md-4 mb-2">
+              <div class="form-group">
+                <label for="endDate" class="form-label">Fecha Final:</label>
+                <input type="date" class="form-control" id="endDate" name="endDate" [(ngModel)]="endDate" required>
+              </div>
+            </div>
+            <div class="col-md-4 mb-2">
+              <br>
+              <button type="submit" class="btn btn-primary">Enviar</button>
+            </div>
+          </div>
+        </form>
+        <div class="mb-3">
+          <div class="mb-3 card border-primary">
+            <div class="card-body">
+              <div *ngFor="let employer of topByPays; let i = index" class="card mb-3">
+                <div class="row">
+                  <div class="col-md-8">
+                    <div class="card-body">
+                      <h5 class="card-title">{{i+1}}) {{employer.forename}}</h5>
+                      <p class="card-text">Aporte realizado: {{employer.plataformPayments}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>

@@ -10,7 +10,14 @@
         </div>
       </div>
       <div class="col">
+
+        <div class="mb-3 me-md-3 pt-3">
+          <app-payment-info></app-payment-info>
+        </div>
+
         <div class="bg-light me-md-3 pt-3 px-3 px-md-5 overflow-hidden">
+
+
           <h2 class="display-7">Ofertas publicadas</h2>
           <app-offer-card *ngFor="let offer of offersList" [_offer]="offer" (getEditableOffer)="setEditableOffer($event)"></app-offer-card>
           <h2 class="display-7"> </h2>
@@ -18,14 +25,14 @@
       </div>
       <div class="col">
         <div class="bg-light me-md-3 pt-3 px-3 px-md-5 overflow-hidden">
-          <div *ngIf="userEditable!=null">
+          <div *ngIf="userEditable!=null && _isActiveViewUSR" >
             <h2 class="display-7">{{userEditable.username}}</h2>
-            <app-user-edit *appRefreshComp="userEditable"
+            <app-user-edit *appRefreshComp="userEditable" (getActiveView)="setIsActiveView($event, 0)"
             [_user]="userEditable"></app-user-edit>
           </div>
-          <div *ngIf="offerEditable!=null">
+          <div *ngIf="offerEditable!=null && _isActiveViewOFR">
             <h2 class="display-7">{{offerEditable.offerName}}</h2>
-            <app-offer-edit *appRefreshComp="offerEditable"
+            <app-offer-edit *appRefreshComp="offerEditable" (getActiveView)="setIsActiveView($event, 1)"
             [_offer]="offerEditable"></app-offer-edit>
           </div>
           <h2 class="display-7"> </h2>

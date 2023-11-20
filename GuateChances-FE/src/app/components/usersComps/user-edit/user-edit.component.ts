@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, NgModel } from '@angular/forms';
 import { Employer } from 'src/entities/Employer';
 import { EmployersService } from 'src/app/services/employers.service';
@@ -20,6 +20,8 @@ export class UserEditComponent implements OnInit {
   isEditable: boolean = true;
   userState: string = '';
   updateMessage: string = '';
+  @Output() getActiveView = new EventEmitter<boolean>();
+  _activeView: boolean = true;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -118,5 +120,10 @@ export class UserEditComponent implements OnInit {
         alert('No se ha podido actualizar el estado del usuario');
       },
     });
+  }
+
+  closeComp() {
+    this._activeView = false;
+    this.getActiveView.emit(this._activeView);
   }
 }

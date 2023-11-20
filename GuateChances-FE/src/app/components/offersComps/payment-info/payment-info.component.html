@@ -1,0 +1,24 @@
+<div style="padding-bottom: 25;" class="card">
+  <div class="card-header">
+    <h4 class="card-title">Costo actual por seleccion</h4>
+  </div>
+
+  <div class="card-body">
+    <div class="input-group mb-3">
+      <span class="input-group-text">$</span>
+
+      <input type="number" class="form-control" [disabled]="!enableChanges" name="offerPay" [(ngModel)]="paymentInfo" name="offerPay">
+      <span class="input-group-text"> <button class="form-control col btn btn-sm btn-outline-danger" (click)="enableChange()">Cambiar</button>
+      </span>
+    </div>
+    <div *ngIf="enableChanges" class="row pt-3">
+      <button class="form-control col btn btn-sm btn-outline-success" (click)="saveChanges()">Guardar Cambios</button>
+    </div>
+    <div *ngIf="status==='success'"  class="row pt-3">
+      <div class="alert alert-primary alert-dismissible fade show" role="alert">
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <strong> Se ha actualizado el costo :) </strong>
+      </div>
+    </div>
+  </div>
+</div>
