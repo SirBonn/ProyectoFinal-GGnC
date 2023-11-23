@@ -81,11 +81,11 @@ CREATE TABLE offers(
     offer_desc VARCHAR(300) NOT NULL,
     employer_id VARCHAR (50) NOT NULL, 
     category_id INT NOT NULL,
-    offer_state INT DEFAULT (0),  /*0 activa, 1 esperando entrevista, 2 FINALIZADA*/
+    offer_state INT DEFAULT (0),  /*0 activa, 1 expirada/esperando entrevista, 2 FINALIZADA*/
     publication_date DATE NOT NULL,
     expiration_date DATE NOT NULL, 
     payment DECIMAL(8,2) NOT NULL,
-    modality INT NOT NULL, /*0 presencial, 1 remoto*/
+    modality INT NOT NULL, /*0 presencial, 1 remoto, 2 Hibrido*/
     direction VARCHAR(60) NOT NULL,
     details VARCHAR(500) NOT NULL,
     user_selected VARCHAR (50) DEFAULT (NULL),
@@ -158,7 +158,7 @@ CREATE TABLE interviews(
     application_code INT NOT NULL,
     interview_date DATE NOT NULL,
     inteview_time TIME NOT NULL, 
-    interview_state INT DEFAULT(0), /*0 pendiente, 1 realizada, 2 perdida*/
+    interview_state INT DEFAULT(0), /*0 pendiente, 1 realizada, 2 rechazado*/
     direction VARCHAR(60) NOT NULL,
     notes VARCHAR(300) NOT NULL,
     PRIMARY KEY (id_code),
@@ -174,10 +174,21 @@ INSERT INTO users(id_code, forename, username, userpass, email, birth_date, user
 INSERT INTO payment_logs(user_code, payment_date, plataformPayment) VALUES
 ('adminAssing', '2021-06-06', 150);
 
-INSERT INTO offers_payments(offer_code, payment_date, plataformPayment) VALUES
-(1, '2021-06-06', 150);
+-- INSERT INTO offers_payments(offer_code, payment_date, plataformPayment) VALUES
+-- (1, '2021-06-06', 150);
 
-SELECT u.id_code AS employer_id, u.forename AS employer_name, SUM(op.plataformPayment) AS total_income FROM users u JOIN offers o ON u.id_code = o.employer_id JOIN offers_payments op ON o.id_code = op.offer_code WHERE op.payment_date BETWEEN '2021-05-05' AND '2021-07-07' GROUP BY u.id_code, u.forename ORDER BY total_income DESC LIMIT 5; 
+-- SELECT e.id_code AS employer_id, e.forename AS employer_name, SUM(op.plataformPayment) AS total_cost
+-- FROM users e JOIN offers o ON e.id_code = o.employer_id JOIN offers_payments op ON o.id_code = op.offer_code
+-- WHERE o.offer_state = 2  -- Ofertas finalizadas (cambiar el estado según tu definición)
+-- GROUP BY e.id_code, e.forename ORDER BY total_cost DESC;
+
+-- SELECT i.id_code, i.interview_date, i.inteview_time, i.interview_state, i.direction, i.notes
+-- FROM interviews i
+-- JOIN applications a ON i.application_code = a.id_code
+-- WHERE i.interview_date = ?  -- Coloca la fecha específica deseada
+-- ORDER BY i.interview_date, i.inteview_time;
+
+-- SELECT u.id_code AS employer_id, u.forename AS employer_name, SUM(op.plataformPayment) AS total_income FROM users u JOIN offers o ON u.id_code = o.employer_id JOIN offers_payments op ON o.id_code = op.offer_code WHERE op.payment_date BETWEEN '2021-05-05' AND '2021-07-07' GROUP BY u.id_code, u.forename ORDER BY total_income DESC LIMIT 5; 
 -- -- Insertar datos en la tabla "categories"
 -- INSERT INTO categories (id_code, cat_name, cat_desc) VALUES
 -- (1, 'Tecnologia', 'Categoria relacionada con empleos en tecnologia'),
