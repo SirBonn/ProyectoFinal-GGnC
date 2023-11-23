@@ -35,10 +35,9 @@ public class InsertOffer {
             preparedStatement.setString(10, offer.getDetails());
 
             if (offer.getSeekerSelected().getIdCode().equals("-1")) {
-                preparedStatement.setString(11, null);
+                preparedStatement.setString(11, "null");
             } else {
                 preparedStatement.setString(11, offer.getSeekerSelected().getIdCode());
-
             }
             preparedStatement.setInt(12, offer.getOfferState());
 
@@ -52,6 +51,10 @@ public class InsertOffer {
             DBConectionManager.close(connection);
         }
 
+
+    }
+
+    public void setOfferPayment(Offer offer){
 
     }
 }

@@ -1,0 +1,35 @@
+<div class="container mt-5">
+  <h2>Agenda de Entrevistas</h2>
+  <h4>Oferta: {{aplication.offer.offerName}}</h4>
+  <h4>Aplicante: {{aplication.seeker.forename}}</h4>
+  <h4></h4>
+
+  <form [formGroup]="newInterviewForm" (ngSubmit)="saveInterview()">
+    <div class="mb-3">
+      <label for="interviewDate" class="form-label">Fecha de la Entrevista:</label>
+      <input type="date" class="form-control" id="interviewDate" name="interviewDate" formControlName="interviewDate" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="interviewTime" class="form-label">Hora de la Entrevista:</label>
+      <input type="time" class="form-control" id="interviewTime" name="interviewTime" formControlName="interviewTime" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="direction" class="form-label">Dirección de la Entrevista:</label>
+      <input type="text" class="form-control" id="direction" name="direction" formControlName="direction" required>
+    </div>
+
+    <button type="submit" class="btn btn-primary" [disabled]="aplication.state != 0">Agendar Entrevista</button>
+  </form>
+
+  <!-- <div class="mt-3">
+    <h3>Entrevistas Agendadas:</h3>
+    <ul *ngIf="interviews.length > 0">
+      <li *ngFor="let interview of interviews">
+        Fecha: {{ interview.date }}, Hora: {{ interview.time }}, Dirección: {{ interview.location }}
+      </li>
+    </ul>
+    <p *ngIf="interviews.length === 0">No hay entrevistas agendadas.</p>
+  </div> -->
+</div>

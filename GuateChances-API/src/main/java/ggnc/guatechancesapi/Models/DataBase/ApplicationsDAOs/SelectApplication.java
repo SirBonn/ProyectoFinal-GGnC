@@ -197,5 +197,4 @@ public class SelectApplication {
         return idCode;
     }
 
-
 }

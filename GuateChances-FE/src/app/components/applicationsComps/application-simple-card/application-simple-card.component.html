@@ -1,5 +1,5 @@
-<div class="card shadow">
-  <div style="padding-top: 15px; padding-bottom: 15px;" class="container">
+<div style="padding-top: 15px; padding-bottom: 15px;" class="container">
+  <div class="card shadow">
     <div class="card">
       <div class="card-header ">
         <div class="row">
@@ -25,14 +25,19 @@
       <div class="container">
         <div class="row">
           <div class="col-4">
-            <a class="mb-3 btn btn-sm btn-outline-success" (click)="seleccionarUsuario(_application.seeker.idCode)">Seleccionar</a>
+            <button class="mb-3 btn btn-sm btn-outline-success" [disabled]="appState !== 'Pendiente'"
+              (click)="seleccionarUsuario()">Seleccionar</button>
           </div>
           <div class="col-4">
-            <a class="mb-3 btn btn-sm btn-outline-danger" (click)="rechazar(_application.seeker.idCode)">Rechazar</a>
+            <button class="mb-3 btn btn-sm btn-outline-danger" [disabled]="appState !== 'Pendiente'"
+              (click)="rechazar()">Rechazar</button>
           </div>
         </div>
       </div>
     </div>
+  </div>
+  <div *ngIf="stateInterview === 'selected'">
+    <app-interview-form [aplication]="_application"></app-interview-form>
   </div>
 </div>
 <h1></h1>

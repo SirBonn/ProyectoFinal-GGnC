@@ -6,6 +6,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import ggnc.guatechancesapi.Models.DataBase.ApplicationsDAOs.DeleteApplication;
 import ggnc.guatechancesapi.Models.DataBase.ApplicationsDAOs.InsertApplication;
 import ggnc.guatechancesapi.Models.DataBase.ApplicationsDAOs.SelectApplication;
+import ggnc.guatechancesapi.Models.DataBase.ApplicationsDAOs.UpdateApplication;
 import ggnc.guatechancesapi.Models.DataBase.UsersDAOs.UserCategories.InsertUserCategory;
 import ggnc.guatechancesapi.Models.Domain.Application;
 import ggnc.guatechancesapi.Models.Domain.Category;
@@ -114,6 +115,36 @@ public class ApplicationService {
             objectNode.put("error", e.getMessage());
             resp.getWriter().print(objectNode.toString());
         }
+    }
+
+    public void updateApplication(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
+        try {
+            Application application = objectMapper.readValue(req.getReader(), Application.class);
+            new UpdateApplication().updateApplicationState(application, false);
+            resp.setContentType(ContentType.APPLICATION_JSON.getMimeType());
+            objectMapper.writeValue(resp.getWriter(), application);
+            resp.setStatus(HttpServletResponse.SC_CREATED);
+        } catch (Exception e) {
+            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            resp.setContentType("application/json");
+            ObjectNode objectNode = objectMapper.createObjectNode();
+            objectNode.put("error", e.getMessage());
+            resp.getWriter().print(objectNode.toString());
+        }
+
+    }
+
+    public void sendApplicationsBySeeker(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
+        String idCode = req.getParameter("seekerId");
+        User user = new User(idCode);
+
+        List<Application> applications = new SelectApplication().getAllApplicationsFromUser(user);
+        resp.setContentType(ContentType.APPLICATION_JSON.getMimeType());
+        objectMapper.writeValue(resp.getWriter(), applications);
+        resp.setStatus(HttpServletResponse.SC_CREATED);
+
     }
 
 }

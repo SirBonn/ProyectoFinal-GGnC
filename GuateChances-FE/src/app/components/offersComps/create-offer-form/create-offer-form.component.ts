@@ -24,38 +24,46 @@ export class CreateOfferFormComponent implements OnInit {
     private formBuilder: FormBuilder,
     private offerService: OfferService,
     private categoryService: CategoriesService
-  ) {
-    this.categoryService.getAllCategories().subscribe({
-      next: (categories) => {
-        this.categories = categories;
-      },
-      error: (error) => {
-        console.log('error: ', error.error);
-      },
-    });
-
-  }
+  ) {}
 
   ngOnInit(): void {
+    this.loadCategories();
+    this.createForm();
+  }
+
+  createForm() {
     this.newOfferForm = this.formBuilder.group({
       offerName: [null, [Validators.required, Validators.maxLength(50)]],
       offerDesc: [null, [Validators.required, Validators.maxLength(500)]],
-      category: [null, [Validators.required]],
+      category: [[Validators.required]],
       expireDate: [null, [Validators.required]],
       employer: this.employer,
       payment: [null, [Validators.required]],
       direction: [null, [Validators.required, Validators.maxLength(50)]],
-      modality: [null, [Validators.required]],
+      modality: [0, [Validators.required]],
       details: [null, [Validators.required, Validators.maxLength(500)]],
+    });
+  }
+
+  loadCategories() {
+    this.categoryService.getAllCategories().subscribe({
+      next: (categories) => {
+        this.categories = categories;
+        console.log('categproes: ', this.categories);
+      },
+      error: (error) => {
+        console.log('error: ', error.error);
+      },
     });
   }
 
   submit() {
     if (this.newOfferForm.valid) {
       this.newOffer = this.newOfferForm.value as Offer;
+      this.newOffer.employer = this.employer;
+      console.log('created: ', this.newOffer);
       this.offerService.createOffer(this.newOffer).subscribe({
         next: (created: Offer) => {
-          console.log('created: ', created);
           alert('Oferta creada exitosamente');
           window.location.reload();
         },

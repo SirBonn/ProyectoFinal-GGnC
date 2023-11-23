@@ -1,0 +1,29 @@
+<div style="padding-top: 20px;" class="container">
+  <div class="row">
+    <div class="col-12">
+      <form (ngSubmit)="sendDate()">
+        <div class="row">
+          <div class="col-md-4 mb-2">
+            <div class="form-outline">
+              <label for="startDate" class="form-label">Fecha:</label>
+              <input type="date" class="form-control" id="startDate" name="startDate" [(ngModel)]="date" required>
+            </div>
+          </div>
+          <div class="col-md-4"><br>
+            <button type="submit" class="  btn btn-primary">Enviar</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="row">
+    <div *ngIf="showAll" class="col-12">
+      <app-interview-card-view *ngFor="let interview of allInterviews; let i = index"
+        [_interview]="interview"></app-interview-card-view>
+    </div>
+    <div *ngIf="!showAll" class="col-12">
+      <button (click)="showAll = true" class="btn btn-primary">Limpiar</button>
+      <app-interview-card-view *ngFor="let interview of interviewByDate"
+        [_interview]="interview"></app-interview-card-view>
+  </div>
+</div>

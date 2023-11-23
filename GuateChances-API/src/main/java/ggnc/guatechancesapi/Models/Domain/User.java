@@ -19,7 +19,7 @@ public class User {
     private String forename;
     private String direction;
     private String username;
-    private String password;
+    private String password = "";
     private String email;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date birthdate;

@@ -203,7 +203,11 @@ public class Offer {
     }
 
     public JobSeeker getSeekerSelected() {
-        return seekerSelected;
+        if(seekerSelected == null) {
+            return new JobSeeker("-1");
+        } else {
+            return seekerSelected;
+        }
     }
 
     public void setSeekerSelected(JobSeeker seekerSelected) {

@@ -1,3 +1,4 @@
+import { Time } from '@angular/common';
 import { Application } from './Application';
 
 export interface Interview {

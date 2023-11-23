@@ -1,2 +1,50 @@
 <app-seeker-nav></app-seeker-nav>
-<p>seeker-reports works!</p>
+<div style="padding-top: 20px;" class="container">
+  <div *ngIf="allApplications" class="row">
+    <div class="mb-3 col-12">
+      <div class="card outline-danger">
+        <div class="card-body">
+          <h1 class="card-title">Cantidad de ofertas aplicadas: {{allApplications.length}}</h1>
+        </div>
+      </div>
+    </div>
+  <div class=" mb-3 row">
+    <div class="col-4">
+      <div class="card">
+        <div class="card-header">
+          Aplicaciones pendientes
+        </div>
+        <div class="card-body">
+         <app-application-card *ngFor="let application of pendingApplications" [_application]="application"></app-application-card>
+        </div>
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="card">
+        <div class="card-header">
+          Aplicaciones aceptadas
+        </div>
+        <div class="card-body">
+          <app-application-card *ngFor="let application of selectedApplications" [_application]="application"></app-application-card>
+
+        </div>
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="card">
+        <div class="card-header">
+          Aplicaciones rechazadas
+        </div>
+        <div class="card-body">
+          <app-application-card *ngFor="let application of rejectedApplications" [_application]="application"></app-application-card>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <h1>
+      entrevistas registradas
+    </h1>
+    <app-interview-card-view *ngFor="let interview of interveiwApplications" [_interview]="interview"></app-interview-card-view>
+  </div>
+</div>

@@ -8,8 +8,8 @@ import ggnc.guatechancesapi.Models.DataBase.OffersDAOs.PlataformPayment.InsertUp
 import ggnc.guatechancesapi.Models.DataBase.OffersDAOs.PlataformPayment.SelectPaymentLogs;
 import ggnc.guatechancesapi.Models.DataBase.OffersDAOs.SelectOffer;
 import ggnc.guatechancesapi.Models.DataBase.OffersDAOs.PlataformPayment.SelectOfferPayment;
-import ggnc.guatechancesapi.Models.DataBase.OffersDAOs.PlataformPayment.UpdateOfferPayment;
-import ggnc.guatechancesapi.Models.DataBase.UsersDAOs.SelectReports;
+import ggnc.guatechancesapi.Models.DataBase.OffersDAOs.SelectOffersReports;
+import ggnc.guatechancesapi.Models.DataBase.OffersDAOs.UpdateOffer;
 import ggnc.guatechancesapi.Models.Domain.*;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -103,6 +103,31 @@ public class OfferServices {
         }
     }
 
+    public void updateOffersState(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
+        try {
+            List<Offer> offers = new SelectOffer().getAllOffers();
+            List<Offer> expireOffers = new ArrayList<>();
+            for (Offer offer : offers) {
+                if (offer.getExpireDate().before(offer.setNowDate()) && offer.getOfferState() == 0) {
+                    offer.setOfferState(1);
+                    new UpdateOffer().updateOfferState(offer);
+                    expireOffers.add(offer);
+                }
+            }
+
+            resp.setContentType(ContentType.APPLICATION_JSON.getMimeType());
+            objectMapper.writeValue(resp.getWriter(), expireOffers);
+            resp.setStatus(HttpServletResponse.SC_CREATED);
+        } catch (Exception e) {
+            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            resp.setContentType("application/json");
+            ObjectNode objectNode = objectMapper.createObjectNode();
+            objectNode.put("error", e.getMessage());
+            resp.getWriter().print(objectNode.toString());
+        }
+    }
+
 
     public void sendPaymentLogs(HttpServletRequest req, HttpServletResponse response) throws ServletException, IOException {
         ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
@@ -110,6 +135,26 @@ public class OfferServices {
 
         response.setContentType(ContentType.APPLICATION_JSON.getMimeType());
         objectMapper.writeValue(response.getWriter(), paymentLogs);
+        response.setStatus(HttpServletResponse.SC_CREATED);
+    }
+
+    public void sendOffersByTimes (HttpServletRequest req, HttpServletResponse response) throws ServletException, IOException {
+        ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
+        String idCode = req.getParameter("idCode");
+        List<Offer> offersByTimes = new SelectOffersReports().getOffersByTimes(req.getParameter("start"), req.getParameter("end"), idCode);
+
+        response.setContentType(ContentType.APPLICATION_JSON.getMimeType());
+        objectMapper.writeValue(response.getWriter(), offersByTimes);
+        response.setStatus(HttpServletResponse.SC_CREATED);
+    }
+
+    public void getTotalPayments (HttpServletRequest req, HttpServletResponse response) throws ServletException, IOException {
+        ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
+        String idCode = req.getParameter("idCode");
+        double totalPayments = new SelectOffersReports().getTotalPayments(idCode);
+
+        response.setContentType(ContentType.APPLICATION_JSON.getMimeType());
+        objectMapper.writeValue(response.getWriter(), totalPayments);
         response.setStatus(HttpServletResponse.SC_CREATED);
     }
 

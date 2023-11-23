@@ -13,7 +13,11 @@ import { EmployersService } from 'src/app/services/employers.service';
   styleUrls: ['./employers-home.component.css'],
 })
 export class EmployersHomeComponent implements OnInit {
-  offers!: Offer[];
+  allOffers!: Offer[];
+  activeOffers!: Offer[];
+  closeOffers!: Offer[];
+  interviewOffers!: Offer[];
+
   applications!: Application[];
   employer!: Employer;
 
@@ -21,7 +25,7 @@ export class EmployersHomeComponent implements OnInit {
     private offerService: OfferService,
     private employerService: EmployersService,
     private applicationService: AplicationService,
-    private tokenService: TokenService,
+    private tokenService: TokenService
   ) {
     this.setOffers();
   }
@@ -31,27 +35,37 @@ export class EmployersHomeComponent implements OnInit {
   }
 
   setUser() {
-    this.employerService.getEmployerByCui(this.tokenService.getToken()!).subscribe({
-      next: (_emp: Employer) => {
-        this.employer = _emp;
-        console.log('employer: ', this.employer);
-      },
-      error: () => {
-        console.log('error al obtener el empleador');
-      },
-    });
+    this.employerService
+      .getEmployerByCui(this.tokenService.getToken()!)
+      .subscribe({
+        next: (_emp: Employer) => {
+          this.employer = _emp;
+          console.log('employer: ', this.employer);
+        },
+        error: () => {
+          console.log('error al obtener el empleador');
+        },
+      });
   }
 
   setOffers() {
-    this.offerService.getOffersByEmployerId(this.tokenService.getToken()!).subscribe({
-      next: (offers: Offer[]) => {
-        console.log('offers: ', offers);
-        this.offers = offers;
-      },
-      error: () => {
-        console.log('error al obtener las ofertas');
-      },
-    });
-  }
+    this.offerService
+      .getAllOffersByEmployerId(this.tokenService.getToken()!)
+      .subscribe({
+        next: (offers: Offer[]) => {
+          console.log('offers: ', offers);
+          this.allOffers = offers;
+          this.activeOffers = offers.filter((offer) => offer.offerState == 0);
+          this.closeOffers = offers.filter((offer) => offer.offerState == 2);
+          this.interviewOffers = offers.filter((offer) => offer.offerState == 1);
+          console.log('activeOffers: ', this.activeOffers);
+          console.log('closeOffers: ', this.closeOffers);
+          console.log('interviewOffers: ', this.interviewOffers);
 
+        },
+        error: () => {
+          console.log('error al obtener las ofertas');
+        },
+      });
+  }
 }

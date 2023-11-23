@@ -2,6 +2,7 @@ package ggnc.guatechancesapi.Models.DataBase.UsersDAOs;
 
 import ggnc.guatechancesapi.Models.DataBase.DBConectionManager;
 import ggnc.guatechancesapi.Models.Domain.Employer;
+import ggnc.guatechancesapi.Models.Domain.Offer;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,7 +14,15 @@ public class UpdateEmployer {
     private PreparedStatement preparedStatement;
     private ResultSet resultSet;
 
-     public void updateEmployer(Employer employer) {
+    public UpdateEmployer() {
+
+    }
+
+    public UpdateEmployer(Connection connection) {
+        this.connection = connection;
+    }
+
+    public void updateEmployer(Employer employer) {
         String SQL_UPDATE_EMPLOYER = "UPDATE employers SET vision=?, mision=? WHERE id_code=?";
 
         try {
@@ -32,5 +41,21 @@ public class UpdateEmployer {
             DBConectionManager.close(preparedStatement);
             DBConectionManager.close(connection);
         }
+    }
+
+    public void payOffer(Employer employer) {
+        String SQL_UPDATE_EMPLOYER = "UPDATE employers SET paysPlataform = paysPlataform + ( SELECT COLUMN_DEFAULT FROM information_schema.columns " +
+                "WHERE TABLE_SCHEMA='guatechances_db' AND TABLE_NAME='offers_payments' AND COLUMN_NAME='plataformPayment' ) WHERE id_code = ?";
+
+
+        try {
+            preparedStatement = connection.prepareStatement(SQL_UPDATE_EMPLOYER);
+            preparedStatement.setString(1, employer.getIdCode());
+            preparedStatement.executeUpdate();
+        } catch (Exception ex) {
+            System.out.println("Error en la actualizacion de empleador\n" + ex.getMessage());
+        }
+
+
     }
 }

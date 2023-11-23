@@ -15,4 +15,9 @@ export interface Offer {
   modality: number;
   direction: string;
   details: string;
+  seekerSelected?: User;
 }
+
+
+
+

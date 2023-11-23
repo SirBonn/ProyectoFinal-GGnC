@@ -13,26 +13,30 @@ import { TokenService } from 'src/app/services/token.service';
 export class SeekersSelectionPageComponent implements OnInit {
   offers!: Offer[];
   applications!: Application[];
-  viewApplications:boolean = false;
+  activeOffers!: Offer[];
+  expiredOffers!: Offer[];
+  viewApplications: boolean = false;
   offerSelected!: Offer;
 
   constructor(
     private offerService: OfferService,
     private applicationService: AplicationService,
     private tokenService: TokenService
-  ) {
+  ) {}
+
+  ngOnInit() {
     this.setOffers();
   }
 
-  ngOnInit(): void {}
-
   setOffers() {
     this.offerService
-      .getOffersByEmployerId(this.tokenService.getToken()!)
+      .getAllOffersByEmployerId(this.tokenService.getToken()!)
       .subscribe({
         next: (offers: Offer[]) => {
           console.log('offers: ', offers);
           this.offers = offers;
+          this.expiredOffers = offers.filter((offer) => offer.offerState == 2);
+          this.activeOffers = offers.filter((offer) => offer.offerState != 2);
         },
         error: () => {
           console.log('error al obtener las ofertas');
@@ -56,5 +60,9 @@ export class SeekersSelectionPageComponent implements OnInit {
         console.log('error al obtener las aplicaciones', error.error);
       },
     });
+  }
+
+  viewUserSelected(offer: Offer) {
+    this.viewApplications = false;
   }
 }

@@ -209,6 +209,8 @@ public class FileMagnament {
                 JobSeeker seekerSelected = new JobSeeker("-1");
                 if (!offerNode.get("usuarioElegido").isNull()) {
                     seekerSelected = new JobSeeker(offerNode.get("usuarioElegido").asText());
+                } else {
+                    seekerSelected = new JobSeeker("-1");
                 }
 
                 Offer offer = new Offer(idCode, nombre, offerDesc, employer, category, intState, publicationDate, expirationDate, salary, intModality, direction, details, seekerSelected);

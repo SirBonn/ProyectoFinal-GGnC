@@ -15,6 +15,15 @@ public class InterviewsControllerServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+        if (req.getParameter("action") == null) {
+        } else {
+            switch (req.getParameter("action")) {
+                case "createInterview":
+                    interviewService.createInterview(req, resp);
+                    break;
+                default:
+            }
+        }
     }
 
     @Override
@@ -42,6 +51,10 @@ public class InterviewsControllerServlet extends HttpServlet {
                     break;
                 case "getApplicationInterview":
                     interviewService.getApplicationInterview(req, resp);
+                    break;
+                case "getInterviewsByDate":
+                    interviewService.getOffersByDate(req, resp);
+                    break;
                 default:
 
             }
@@ -51,7 +64,11 @@ public class InterviewsControllerServlet extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+        if (req.getParameter("isContract") == null) {
+            interviewService.updateInterview(req, resp, true);
+        } else {
+            interviewService.updateInterview(req, resp, false);
+        }
     }
 
 }

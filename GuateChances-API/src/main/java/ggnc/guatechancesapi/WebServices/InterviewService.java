@@ -3,7 +3,9 @@ package ggnc.guatechancesapi.WebServices;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import ggnc.guatechancesapi.Models.DataBase.InterviewsDAOs.InsertInterview;
 import ggnc.guatechancesapi.Models.DataBase.InterviewsDAOs.SelectInterview;
+import ggnc.guatechancesapi.Models.DataBase.InterviewsDAOs.UpdateInterview;
 import ggnc.guatechancesapi.Models.Domain.*;
 import ggnc.guatechancesapi.Utils.ErrorOcurredException;
 import jakarta.servlet.ServletException;
@@ -104,7 +106,7 @@ public class InterviewService {
 
         try {
 
-            User user = new User(req.getParameter("userCode"));
+            User user = new User(req.getParameter("seekerId"));
             List<Interview> interviews = new SelectInterview().getInterviewsBySeeker(user);
             resp.setContentType(ContentType.APPLICATION_JSON.getMimeType());
             objectMapper.writeValue(resp.getWriter(), interviews);
@@ -138,6 +140,73 @@ public class InterviewService {
             ObjectNode objectNode = objectMapper.createObjectNode();
             objectNode.put("error", e.getMessage());
             resp.getWriter().print(objectNode.toString());
+        }
+    }
+
+    public void createInterview(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
+
+        try {
+
+            Interview interview = objectMapper.readValue(req.getReader(), Interview.class);
+            new InsertInterview().insertInterviewWithUpdate(interview);
+            resp.setContentType(ContentType.APPLICATION_JSON.getMimeType());
+            objectMapper.writeValue(resp.getWriter(), interview);
+            resp.setStatus(HttpServletResponse.SC_CREATED);
+
+        } catch (Exception e) {
+
+            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            resp.setContentType("application/json");
+            ObjectNode objectNode = objectMapper.createObjectNode();
+            objectNode.put("error", e.getMessage());
+            resp.getWriter().print(objectNode.toString());
+
+        }
+    }
+
+    public void updateInterview(HttpServletRequest req, HttpServletResponse resp, boolean isContract) throws ServletException, IOException {
+        ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
+
+        try {
+
+            Interview interview = objectMapper.readValue(req.getReader(), Interview.class);
+            new UpdateInterview().updateStateInterview(interview, isContract);
+            resp.setContentType(ContentType.APPLICATION_JSON.getMimeType());
+            objectMapper.writeValue(resp.getWriter(), interview);
+            resp.setStatus(HttpServletResponse.SC_CREATED);
+
+        } catch (Exception e) {
+
+            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            resp.setContentType("application/json");
+            ObjectNode objectNode = objectMapper.createObjectNode();
+            objectNode.put("error", e.getMessage());
+            resp.getWriter().print(objectNode.toString());
+
+        }
+    }
+
+    public void getOffersByDate(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
+
+        try {
+
+            String date = req.getParameter("date");
+            String idCode = req.getParameter("idCode");
+            List<Interview> interviews = new SelectInterview().getInterviewsByDate(date, idCode);
+            resp.setContentType(ContentType.APPLICATION_JSON.getMimeType());
+            objectMapper.writeValue(resp.getWriter(), interviews);
+            resp.setStatus(HttpServletResponse.SC_CREATED);
+
+        } catch (Exception e) {
+
+            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            resp.setContentType("application/json");
+            ObjectNode objectNode = objectMapper.createObjectNode();
+            objectNode.put("error", e.getMessage());
+            resp.getWriter().print(objectNode.toString());
+
         }
     }
 

@@ -33,6 +33,12 @@ public class OffersControllerServlet extends HttpServlet {
                 case "getPaymentLogs":
                     offerServices.sendPaymentLogs(req, response);
                     break;
+                case "getOffersByDate":
+                    offerServices.sendOffersByTimes(req, response);
+                    break;
+                case "getTotalPayments":
+                    offerServices.getTotalPayments(req, response);
+                    break;
                 default:
                     break;
             }
@@ -57,6 +63,9 @@ public class OffersControllerServlet extends HttpServlet {
         switch (req.getParameter("action")) {
             case "updateOffersPayment":
                 offerServices.updateOffersPayment(req, resp);
+                break;
+            case "chekOffers":
+                offerServices.updateOffersState(req, resp);
                 break;
             default:
                 break;

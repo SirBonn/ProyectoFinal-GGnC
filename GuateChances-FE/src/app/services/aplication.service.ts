@@ -18,6 +18,9 @@ export class AplicationService {
     return this.httpCliente.get<Application[]>(this.API_URL + '/controller/application?action=getApplications&userCode='+userCode);
   }
 
+  public getApplicationsBySeekerId(seekerId: string): Observable<Application[]> {
+    return this.httpCliente.get<Application[]>(this.API_URL + '/controller/application?action=getApplicationsBySeeker&seekerId='+seekerId);
+  }
 
   public deleteApplication(application:Application): Observable<Application[]> {
     return this.httpCliente.delete<Application[]>(this.API_URL + '/controller/application?idApplication='+application.idCode);
@@ -25,6 +28,10 @@ export class AplicationService {
 
   public getApplicationsByOfferId(offerId: number): Observable<Application[]> {
     return this.httpCliente.get<Application[]>(this.API_URL + '/controller/application?action=getApplicationsByOffer&offerId='+offerId);
+  }
+
+  public rejectUser(application: Application): Observable<Application> {
+    return this.httpCliente.put<Application>(this.API_URL + '/controller/application', application);
   }
 
 }

@@ -13,9 +13,12 @@ import { EmployersService } from 'src/app/services/employers.service';
   styleUrls: ['./my-interviews.component.css'],
 })
 export class MyInterviewsComponent implements OnInit {
-  interviews!: Interview[];
+  allInterviews!: Interview[];
+  activeInterviews!: Interview[];
+  pastInterviews!: Interview[];
   offers!: Offer[];
   @Input() employer!: Employer;
+
 
   constructor(
     private interviewService: InterviewService,
@@ -29,13 +32,19 @@ export class MyInterviewsComponent implements OnInit {
   ngOnInit(): void {}
 
   setInterviews() {
-
     this.interviewService
       .getInterviewsByEmployerId(this.tokenService.getToken()!)
       .subscribe({
         next: (interviews: Interview[]) => {
           console.log('interviews: ', interviews);
-          this.interviews = interviews;
+          this.allInterviews = interviews;
+          this.activeInterviews = interviews.filter(
+            (interview) => interview.interviewState === 0
+          );
+          this.pastInterviews = interviews.filter(
+            (interview) => interview.interviewState !== 0
+          );
+
         },
         error: (error) => {
           console.log('error al obtener las entrevistas', error.error);

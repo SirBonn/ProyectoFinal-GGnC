@@ -26,9 +26,8 @@
         <div class="mb-3">
           <div class="mb-3">
             <label for="category" class="form-label">Category:</label>
-            <select class="form-select form-control" name="category" id="category"
-            [class.is-invalid]="newOfferForm.controls['category'].invalid && newOfferForm.controls['category'].touched">
-              <option *ngFor="let category of categories" value="{{category.idCode}}"> {{category.categoryName}}</option>
+            <select class="form-select form-control" name="category" id="category" formControlName="category">
+              <option *ngFor="let cat of categories; let i = index" [value]="i"> {{cat.categoryName}}</option>
             </select>
           </div>
         </div>
@@ -56,9 +55,12 @@
 
         <div class="mb-3">
           <label for="modality" class="form-label">Modality:</label>
-          <input type="number" class="form-control"
-            [class.is-invalid]="newOfferForm.controls['modality'].invalid && newOfferForm.controls['modality'].touched"
-            id="modality" name="modality" required formControlName="modality">
+            <select class="form-select form-control" name="modality" id="modality" formControlName="modality"
+            [class.is-invalid]="newOfferForm.controls['modality'].invalid && newOfferForm.controls['modality'].touched">
+              <option value="0">Presencial</option>
+              <option value="1">Remoto</option>
+              <option value="2">Hibrido</option>
+            </select>
         </div>
         <div class="mb-3">
           <label for="details" class="form-label">details:</label>

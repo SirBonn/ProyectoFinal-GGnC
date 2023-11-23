@@ -21,5 +21,25 @@ export class InterviewService {
   public getInterviewsByEmployerId(employerId: string): Observable<Interview[]> {
     return this.httpCliente.get<Interview[]>(this.API_URL + '/controller/interviews?action=getEmployerInterviews&empCode='+employerId);
   }
-  //
+
+  public createNewInterview(interview: Interview): Observable<Interview> {
+    return this.httpCliente.post<Interview>(this.API_URL + '/controller/interviews?action=createInterview', interview);
+  }
+
+  public rejectUser(interview: Interview): Observable<Interview> {
+    return this.httpCliente.put<Interview>(this.API_URL + '/controller/interviews?action=finaliceInterview&isContract=false', interview);
+  }
+
+  public hireUser(interview: Interview): Observable<Interview> {
+    return this.httpCliente.put<Interview>(this.API_URL + '/controller/interviews?action=finaliceInterview', interview);
+  }
+
+  public getInterviewsByDate(startDate: string, token: string): Observable<Interview[]> {
+    return this.httpCliente.get<Interview[]>(this.API_URL + '/controller/interviews?action=getInterviewsByDate&date='+startDate+'&idCode='+token);
+  }
+
+  public getInterviewsBySeekerId(seekerId: string): Observable<Interview[]> {
+    return this.httpCliente.get<Interview[]>(this.API_URL + '/controller/interviews?action=getUserInterviews&seekerId='+seekerId);
+  }
+
 }

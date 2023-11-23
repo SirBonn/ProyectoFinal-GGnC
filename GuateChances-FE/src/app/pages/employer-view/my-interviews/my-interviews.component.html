@@ -2,11 +2,14 @@
   <app-employers-nav></app-employers-nav>
 </main>
 <div class="container">
-  <div class="col-8">
-    <app-interview-employer-view *ngFor="let interview of interviews"
+  <div class="">
+    <h2>Entrevistas Activas</h2>
+    <app-interview-employer-view *ngFor="let interview of activeInterviews"
+      [_interview]="interview"></app-interview-employer-view>
+      <h2>Entrevistas realizadas</h2>
+    <app-interview-employer-view *ngFor="let interview of pastInterviews"
       [_interview]="interview"></app-interview-employer-view>
   </div>
-  <div class="col-4">
-
+  <div class="">
   </div>
 </div>

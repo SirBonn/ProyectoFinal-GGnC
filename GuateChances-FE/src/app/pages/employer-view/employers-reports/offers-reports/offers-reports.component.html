@@ -1,0 +1,87 @@
+<div style="padding-top: 20px;" class="container">
+  <div class="row">
+    <div class="col-2">
+      <div class="card">
+        <div class="card-header">
+          Total pagado por ofertas finalizadas
+        </div>
+        <div class="card-body">
+          <h1 class="card-title">Q. {{totalPays}} </h1>
+        </div>
+      </div>
+    </div>
+    <div class="col-10">
+      <div class="card border-primary">
+        <div class="card-body">
+          <h2 class="card-text">Ofertas dentro de un rango de fechas</h2>
+          <form (ngSubmit)="sendDates()">
+            <div class="row">
+              <div class="col-md-4 mb-2">
+                <div class="form-outline">
+                  <label for="startDate" class="form-label">Fecha Inicial:</label>
+                  <input type="date" class="form-control" id="startDate" name="startDate" [(ngModel)]="startDate"
+                    required>
+                </div>
+              </div>
+              <div class="col-md-4 mb-2">
+                <div class="form-group">
+                  <label for="endDate" class="form-label">Fecha Final:</label>
+                  <input type="date" class="form-control" id="endDate" name="endDate" [(ngModel)]="endDate" required>
+                </div>
+              </div>
+              <div class="col-md-4"><br>
+                <button class="btn btn-success " (click)="getAllOffers()">Mostrar todas</button>
+                <button type="submit" class="  btn btn-primary">Enviar</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="showAll">
+    <div class="row">
+      <app-offer-simple-card *ngFor="let offer of offersByDate; let i = index" [_offer]="offer"></app-offer-simple-card>
+    </div>
+  </div>
+  <div *ngIf="showOffers">
+    <div class="row">
+      <div style="padding-top: 10px;" class="col-4">
+        <div class="card">
+          <div class="card-header">
+            <h3>Ofertas Activas</h3>
+          </div>
+          <div class="card-body">
+            <app-offer-simple-card *ngFor="let offer of activeOffers; let i = index"
+              [_offer]="offer"></app-offer-simple-card>
+          </div>
+        </div>
+      </div>
+      <div style="padding-top: 10px;" class="col-4">
+        <div class="card">
+          <div class="card-header">
+            <h3>Ofertas en fase de seleccion</h3>
+          </div>
+          <div class="card-body">
+            <app-offer-simple-card *ngFor="let offer of selectionOffers; let i = index"
+              [_offer]="offer"></app-offer-simple-card>
+          </div>
+        </div>
+      </div>
+      <div style="padding-top: 10px;" class="col-4">
+        <div class="card">
+          <div class="card-header">
+            <h3>Ofertas finalizadas</h3>
+          </div>
+          <div class="card-body">
+            <app-offer-simple-card *ngFor="let offer of finalizatedOffers; let i = index"
+              [_offer]="offer"></app-offer-simple-card>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>

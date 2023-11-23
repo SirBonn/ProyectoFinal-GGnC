@@ -43,7 +43,6 @@ public class SelectOffer {
                 String publicationDate = resultSet.getString("publication_date");
                 String expireDate = resultSet.getString("expiration_date");
                 double payment = resultSet.getDouble("payment");
-                double plataformPayment = resultSet.getDouble("plataformPayment");
                 int modality = resultSet.getInt("modality");
                 String direction = resultSet.getString("direction");
                 String details = resultSet.getString("details");

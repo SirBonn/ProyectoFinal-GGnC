@@ -64,4 +64,26 @@ public class UpdateUser {
 
     }
 
+    public void contractUser(User user) throws ErrorOcurredException{
+
+        String SQL_UPDATE_CATEGORY = "UPDATE users SET isActive = ? WHERE id_code = ?";
+
+        try {
+            this.connection = DBConectionManager.getConnection();
+            preparedStatement = connection.prepareStatement(SQL_UPDATE_CATEGORY);
+
+            preparedStatement.setInt(1, user.getIsActive());
+
+            preparedStatement.setString(2, user.getIdCode());
+            preparedStatement.executeUpdate();
+        } catch (Exception ex) {
+            System.out.println("Error en la actualizacion de usuario\n" + ex.getMessage());
+            throw new ErrorOcurredException("Error en la actualizacion de usuario\n" + ex.getMessage());
+        } finally {
+            DBConectionManager.close(preparedStatement);
+            DBConectionManager.close(connection);
+        }
+
+    }
+
 }

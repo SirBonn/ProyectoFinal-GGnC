@@ -57,6 +57,10 @@ import { ApplicationSimpleCardComponent } from './components/applicationsComps/a
 import { PaymentInfoComponent } from './components/offersComps/payment-info/payment-info.component';
 import { PaymentLogComponent } from './pages/admin-view/reportes/payment-log/payment-log.component';
 import { EmployersStatsComponent } from './pages/admin-view/reportes/employers-stats/employers-stats.component';
+import { InterviewFormComponent } from './components/interviewsComps/interview-form/interview-form.component';
+import { EndInterviewFormComponent } from './components/interviewsComps/end-interview-form/end-interview-form.component';
+import { InterviewReportsComponent } from './pages/employer-view/employers-reports/interview-reports/interview-reports.component';
+import { OffersReportsComponent } from './pages/employer-view/employers-reports/offers-reports/offers-reports.component';
 
 @NgModule({
   declarations: [
@@ -112,7 +116,11 @@ import { EmployersStatsComponent } from './pages/admin-view/reportes/employers-s
     ApplicationSimpleCardComponent,
     PaymentInfoComponent,
     PaymentLogComponent,
-    EmployersStatsComponent
+    EmployersStatsComponent,
+    InterviewFormComponent,
+    EndInterviewFormComponent,
+    InterviewReportsComponent,
+    OffersReportsComponent,
   ],
   imports: [
     BrowserModule,

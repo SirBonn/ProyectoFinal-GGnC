@@ -18,9 +18,9 @@ public class Interview {
     private Date interviewDate;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
     private Time interviewTime;
-    private int interviewState = -1;
+    private int interviewState = 0;
     private String direction;
-    private String notes;
+    private String notes = "";
 
     public Interview(int idCode, Application application, String interviewDate, String interviewTime, int interviewState, String direction, String notes) {
         this.idCode = idCode;
@@ -61,6 +61,10 @@ public class Interview {
 
     public void setInterviewTime(Time interviewTime) {
         this.interviewTime = interviewTime;
+    }
+
+    public void setInterviewTime(String interviewTime){
+        this.interviewTime = TimeNDateFormater.stringToTime(interviewTime);
     }
 
     public int getInterviewState() {

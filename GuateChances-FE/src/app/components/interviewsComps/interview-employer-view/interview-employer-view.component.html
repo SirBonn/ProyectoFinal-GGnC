@@ -1,23 +1,39 @@
-<div style="padding-top: 15px;">
-  <div class="card  border-success">
-    <div class="card-header border-success">
-      <div class="row g-2">
-        <div class="col-8"><h2 class="">Entrevista agendada<br>{{_interview.interviewDate}} - {{_interview.interviewTime}}</h2></div>
-        <div style="padding-top: 15px;" class="col-4">
-          <button type="button" class="btn btn-primary btn-lg"> Terminar </button>
+<div style="padding-top: 15px;" class="container">
+  <div class="row">
+    <div class="col-8">
+      <div class="card  border-success">
+        <div class="card-header border-success">
+          <div class="row">
+            <div class="col-8">
+              <h2 class="">Entrevista agendada<br>{{_interview.interviewDate}} - {{_interview.interviewTime}}</h2>
+            </div>
+            <div style="padding-top: 15px;" class="col-4">
+              <div *ngIf="_interview.interviewState == 0">
+                <button type="button" class="btn btn-primary btn-lg" (click)="showContractForm()"> Terminar </button>
+              </div>
+              <div *ngIf="_interview.interviewState == 1">
+                <button type="button" class="btn outline-warning btn-lg"> Ver detalles </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <p class=""> Aplicando para {{_interview.application.offer.offerName}}</p>
+            <p class=""> detalles: {{_interview.application.offer.details}}</p>
+            <p class=""> Aplicante: {{_interview.application.seeker.forename}}</p>
+            <p class=""> Razon descrita: {{_interview.application.seekerMessage}}</p>
+          </div>
         </div>
       </div>
-
     </div>
-    <div class="card-body">
-      <div class="row">
-        <p class=""> Aplicando para {{_interview.application.offer.offerName}}</p>
-        <p class=""> detalles: {{_interview.application.offer.details}}</p>
-        <p class=""> Aplicante: {{_interview.application.seeker.forename}}</p>
-        <p class=""> Razon descrita: {{_interview.application.seekerMessage}}</p>
+    <div class="col-4">
+      <div *ngIf="showForm && _interview.interviewState == 0">
+        <app-end-interview-form [interview]="_interview"></app-end-interview-form>
       </div>
     </div>
   </div>
+
 </div>
 
 <h5></h5>

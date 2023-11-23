@@ -42,4 +42,15 @@ public createOffer(offer: Offer): Observable<Offer> {
     return this.httpCliente.get<PlataformPayment[]>(this.API_URL + '/controller/offers?action=getPaymentLogs');
   }
 
+  public chekOfferState(): Observable<Offer[]> {
+    return this.httpCliente.put<Offer[]>(this.API_URL + '/controller/offers?action=chekOffers', null);
+  }
+
+  public getOffersByDate(startDate: string, endDate: string, idCode:string): Observable<Offer[]> {
+    return this.httpCliente.get<Offer[]>(this.API_URL + '/controller/offers?action=getOffersByDate&start=' + startDate + '&end=' + endDate+ '&empCode=' + idCode);
+  }
+
+  public getTotalPayments(idCode:string): Observable<number> {
+    return this.httpCliente.get<number>(this.API_URL + '/controller/offers?action=getTotalPayments&idCode=' + idCode);
+  }
 }

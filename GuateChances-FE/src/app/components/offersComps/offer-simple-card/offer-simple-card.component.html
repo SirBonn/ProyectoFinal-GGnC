@@ -1,7 +1,10 @@
 <div style="padding-top: 15px;">
   <div class="card">
     <div class="card-header">
-      <h3>{{_offer.offerName}}</h3>
+      <div class="d-flex justify-content-between">
+        <h3>{{_offer.offerName}}</h3>
+        <h3>{{_offer.offerState}}</h3>
+      </div>
     </div>
     <div class="card-body">
       <div class="container">
@@ -10,11 +13,13 @@
             <p class="">Salario: Q {{_offer.payment}} </p>
             <p class="">Modalidad de empleo: {{_modality}}</p>
             <p class="">Categoria: {{_offer.category.categoryName}}</p>
+            <p class="">Publicacion: {{_offer.publicationDate}}</p>
           </div>
           <div class="col-6">
             <p class="">Detalles: {{_offer.details}}</p>
             <p class="">Descripcion: {{_offer.offerDesc}}</p>
             <p class="">Lugar: {{_offer.direction}}</p>
+            <p class="">Vencimiento: {{_offer.expireDate}}</p>
           </div>
         </div>
       </div>

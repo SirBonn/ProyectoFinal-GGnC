@@ -6,11 +6,13 @@
     <div class="row justify-content-center g-2">
       <div class="col-2">
         <div class="card text-start">
-          <div class="card-body">
+          <div class="card-body" *ngIf="activeOffers && allOffers && closeOffers">
             <h4 class="card-title">Mi perfil</h4>
-            <p class="card-text">Ofertas activas: </p>
-            <p class="card-text">ofertas publicadas: </p>
-            <p class="card-text">Entrevistas activas: </p>
+            <p class="card-text">Ofertas activas: {{activeOffers.length}}</p>
+            <p class="card-text">Ofertas listas para seleccionar: {{interviewOffers.length}}</p>
+            <p class="card-text">Ofertas cerradas: {{closeOffers.length}}</p>
+            <h5 class="divider"></h5>
+            <p class="card-text">ofertas publicadas: {{allOffers.length}}</p>
           </div>
         </div>
       </div>
@@ -20,7 +22,7 @@
             <h4 class="card-text">Ofertas activas</h4>
           </div>
           <div class="">
-            <app-offers-employer-view *ngFor="let offer of offers" [_offer]="offer"></app-offers-employer-view>
+            <app-offers-employer-view *ngFor="let offer of activeOffers" [_offer]="offer"></app-offers-employer-view>
           </div>
         </div>
       </div>

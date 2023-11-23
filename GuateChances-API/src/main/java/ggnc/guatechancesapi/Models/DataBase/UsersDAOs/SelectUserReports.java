@@ -3,16 +3,14 @@ package ggnc.guatechancesapi.Models.DataBase.UsersDAOs;
 import ggnc.guatechancesapi.Models.DataBase.DBConectionManager;
 import ggnc.guatechancesapi.Models.Domain.Employer;
 import ggnc.guatechancesapi.Models.Domain.EmployerByOffer;
-import ggnc.guatechancesapi.Utils.TimeNDateFormater;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SelectReports {
+public class SelectUserReports {
 
     private Connection connection;
     private PreparedStatement preparedStatement;
@@ -82,5 +80,7 @@ public class SelectReports {
         }
         return topEmployers;
     }
+
+
 
 }

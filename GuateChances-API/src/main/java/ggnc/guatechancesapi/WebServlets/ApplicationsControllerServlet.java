@@ -35,8 +35,11 @@ public class ApplicationsControllerServlet extends HttpServlet {
                 case "getApplications":
                     applicationsService.sendAllApplications(req, resp);
                     break;
-                    case "getApplicationsByOffer":
+                case "getApplicationsByOffer":
                     applicationsService.sendApplicationsByOffer(req, resp);
+                    break;
+                    case "getApplicationsBySeeker":
+                    applicationsService.sendApplicationsBySeeker(req, resp);
                     break;
                 default:
                     break;
@@ -52,6 +55,8 @@ public class ApplicationsControllerServlet extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        applicationsService.updateApplication(req, resp);
 
     }
 

@@ -1,7 +1,21 @@
-
 <main>
   <app-employers-nav></app-employers-nav>
 </main>
 <div class="container">
-  <p>employers-my offers works!</p>
+  <div class="row">
+    <div class="col-6">
+      <h2 class="display-7">Ofertas publicadas</h2>
+      <app-offer-card *ngFor="let offer of offersList" [_offer]="offer"
+        (getEditableOffer)="setEditableOffer($event)"></app-offer-card>
+      <h2 class="display-7"> </h2>
+    </div>
+    <div class="col-6">
+      <div *ngIf="offerEditable!=null && _isActiveViewOFR">
+        <h2 class="display-7">{{offerEditable.offerName}}</h2>
+        <app-offer-edit *appRefreshComp="offerEditable" (getActiveView)="setIsActiveView($event, 1)"
+          [_offer]="offerEditable"></app-offer-edit>
+      </div>
+    </div>
+  </div>
+
 </div>

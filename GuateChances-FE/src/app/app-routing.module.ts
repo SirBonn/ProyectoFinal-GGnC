@@ -23,6 +23,8 @@ import { EmployersHomeComponent } from './pages/employer-view/employers-home/emp
 import { HomeGCComponent } from './pages/home-gc/home-gc.component';
 import { EmployersStatsComponent } from './pages/admin-view/reportes/employers-stats/employers-stats.component';
 import { PaymentLogComponent } from './pages/admin-view/reportes/payment-log/payment-log.component';
+import { OffersReportsComponent } from './pages/employer-view/employers-reports/offers-reports/offers-reports.component';
+import { InterviewReportsComponent } from './pages/employer-view/employers-reports/interview-reports/interview-reports.component';
 import { GuatechancesHomeComponent } from './pages/home-gc/guatechances-home/guatechances-home.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { SocialComponent } from './pages/social/social.component';
@@ -60,7 +62,10 @@ const routes: Routes = [
           { path: 'offers', title: 'EmployerOffers', component: MyOffersViewComponent },
           { path: 'interviews', title: 'EmployerInterviews', component: MyInterviewsComponent },
           { path: 'seekers-selection', title: 'EmployerSeekers', component: SeekersSelectionPageComponent },
-          { path: 'reports', title: 'EmployerReports', component: EmployersReportsComponent },
+          { path: 'reports', title: 'EmployerReports', component: EmployersReportsComponent, children: [
+            {path: 'offers-reports' , title: 'OffersReports', component: OffersReportsComponent},
+            {path: 'interview-reports', title: 'InterviewReports', component: InterviewReportsComponent}
+          ] },
         ],
       },
       { path: 'seeker',

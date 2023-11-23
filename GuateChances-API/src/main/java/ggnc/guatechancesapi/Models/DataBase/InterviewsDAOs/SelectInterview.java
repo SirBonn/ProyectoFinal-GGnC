@@ -250,4 +250,34 @@ public class SelectInterview {
         return interviews;
     }
 
+    public List<Interview> getInterviewsByDate(String date, String idCode){
+        List<Interview> interviews = new ArrayList<>();
+
+        String SQL_SELECT_BY_DATE = "SELECT i.id_code, i.interview_date, i.inteview_time, i.interview_state, i.direction, i.notes " +
+                "FROM interviews i JOIN applications a ON i.application_code = a.id_code JOIN offers o ON a.offer_code = o.id_code " +
+                "JOIN employers e ON o.employer_id = e.id_code WHERE i.interview_date = ?  AND e.id_code = ? ORDER BY i.interview_date, i.inteview_time;";
+
+        try {
+            connection = DBConectionManager.getConnection();
+            preparedStatement = connection.prepareStatement(SQL_SELECT_BY_DATE);
+            preparedStatement.setString(1, date);
+            preparedStatement.setString(2, idCode);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                Interview interview = new SelectInterview().getInterviewByCode(new Interview(resultSet.getInt("id_code")));
+                interviews.add(interview);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        } finally {
+            DBConectionManager.close(resultSet);
+            DBConectionManager.close(preparedStatement);
+            DBConectionManager.close(connection);
+        }
+
+        return interviews;
+    }
+
 }

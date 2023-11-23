@@ -6,8 +6,6 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import ggnc.guatechancesapi.Models.DataBase.UsersDAOs.*;
 import ggnc.guatechancesapi.Models.Domain.Employer;
 import ggnc.guatechancesapi.Models.Domain.EmployerByOffer;
-import ggnc.guatechancesapi.Models.Domain.User;
-import ggnc.guatechancesapi.Utils.ErrorOcurredException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -66,7 +64,7 @@ public class EmployersService {
 
     public void getTopEmployersByOffers(HttpServletRequest req, HttpServletResponse response) throws ServletException, IOException {
         ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
-        List<EmployerByOffer> topEmployers = new SelectReports().getTopEmployersPublisher();
+        List<EmployerByOffer> topEmployers = new SelectUserReports().getTopEmployersPublisher();
 
         response.setContentType(ContentType.APPLICATION_JSON.getMimeType());
         objectMapper.writeValue(response.getWriter(), topEmployers);
@@ -77,7 +75,7 @@ public class EmployersService {
         ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
         String start = req.getParameter("startDate");
         String end = req.getParameter("endDate");
-        List<Employer> topEmployers = new SelectReports().getTopEmployersContributedBy(start, end);
+        List<Employer> topEmployers = new SelectUserReports().getTopEmployersContributedBy(start, end);
 
         response.setContentType(ContentType.APPLICATION_JSON.getMimeType());
         objectMapper.writeValue(response.getWriter(), topEmployers);
